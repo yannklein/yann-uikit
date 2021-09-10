@@ -1,20 +1,26 @@
 <script>
+  import Icon from 'fa-svelte'
+  import { faHamburger } from '@fortawesome/free-solid-svg-icons/faHamburger'
+  
   export let sections;
 
-  // document.querySelector(".sidebar-burger")
-  //   .addEventListener("click", () => {
-  //     document.querySelector(".sidebar").classList.toggle("show");
-  //   })
+  let isShown = false;
+  const toggleMenu = () => isShown = !isShown;
 
-  const hrefify = title => `#${title.toLowerCase().replace(" ", "-")}`;
+
+  const hrefify = title => `#${title.toLowerCase().replace(" ", "-")}-section`;
 </script>
 
-<div class="sidebar-burger"><i class="fas fa-hamburger"></i></div>
-<div class="sidebar">
-  {#each sections as section}
-     <a href={hrefify(section)}>❐ {section}</a>
-  {/each}
+<div class="sidebar-burger" on:click={toggleMenu}>
+  <Icon icon={faHamburger} />
 </div>
+{#if isShown}
+   <div class="sidebar">
+     {#each sections as section}
+        <a href={hrefify(section)}>❐ {section}</a>
+     {/each}
+   </div>
+{/if}
 
 <style>
   .sidebar-burger {
@@ -27,6 +33,7 @@
     z-index: 50;
     opacity: 0;
     visibility: hidden;
+    cursor: pointer;
   }
 
   .sidebar {
@@ -59,8 +66,8 @@
       visibility: visible;
     }
     .sidebar {
-      opacity: 0;
-      visibility: hidden;
+      opacity: 1;
+      visibility: visible;
       position: fixed;
       height: auto;
       right: 16px;
@@ -70,9 +77,9 @@
       transition: opacity .3s ease-out;
     }
 
-    .sidebar.show {
-      opacity: 1;
-      visibility: visible;
+    .sidebar.hidden {
+      opacity: 0;
+      visibility: hidden;
     }
 
     .sidebar a {
