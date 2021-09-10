@@ -2,24 +2,18 @@
 	import SideBar from "./SideBar.svelte";
 	import Hero from "./Hero.svelte";
 	import Section from "./Section.svelte";
-	const sections = [
-		'Browser killer',
-		'Responsive container',
-		'Page frame',
-		'Cards',
-		'Item cards',
-		'Navbar',
-	]
+	import sections from '../data/sections.js';
+
 	const title="Yann's UI Kit ❐";
 	const description="A repo of interesting non-bootstrap UI components ready to use.";
 </script>
 
-<Hero title={title} description={description}/>
+<Hero {title} {description}/>
 <div class="page-container">
-	<SideBar sections={sections}/>
+	<SideBar sections={sections.map(section => section.title)}/>
 	<div class="content-container">
-		{#each sections as section}
-			<Section section={section}/>
+		{#each sections as section, index}
+			 <Section {...section} {index}/>
 		{/each}
 	</div>
 </div>
