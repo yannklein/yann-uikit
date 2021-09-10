@@ -14,13 +14,11 @@
 <div class="sidebar-burger" on:click={toggleMenu}>
   <Icon icon={faHamburger} />
 </div>
-{#if isShown}
-   <div class="sidebar">
-     {#each sections as section}
-        <a href={hrefify(section)}>❐ {section}</a>
-     {/each}
-   </div>
-{/if}
+<div class="sidebar" class:show={isShown}>
+  {#each sections as section}
+    <a href={hrefify(section)}>❐ {section}</a>
+  {/each}
+</div>
 
 <style>
   .sidebar-burger {
@@ -66,8 +64,8 @@
       visibility: visible;
     }
     .sidebar {
-      opacity: 1;
-      visibility: visible;
+      opacity: 0;
+      visibility: hidden;
       position: fixed;
       height: auto;
       right: 16px;
@@ -77,9 +75,9 @@
       transition: opacity .3s ease-out;
     }
 
-    .sidebar.hidden {
-      opacity: 0;
-      visibility: hidden;
+    .sidebar.show {
+      opacity: 1;
+      visibility: visible;
     }
 
     .sidebar a {
