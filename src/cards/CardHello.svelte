@@ -5,9 +5,9 @@
 
   
   //   });
-  import  CardCode from "./CardCode.svelte";
+	import { cards } from '../../data/data.js';
+  import CardCode from "./CardCode.svelte";
   import { writable } from 'svelte/store';
-
 
   const codeShown = writable(false);
   let tapped = false;
@@ -26,7 +26,7 @@
   </div>
 </div>
 {#if $codeShown}
-  <CardCode {showCode} />
+  <CardCode {showCode} code={cards.Hello}/>
 {/if}
 
 <style>

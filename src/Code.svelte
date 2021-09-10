@@ -9,16 +9,21 @@
     <h3 on:click={currentLang.set(lang)}>{lang}</h3>
   {/each}
 </div>
-<pre>
-  <!-- <code class="language-{currentLang.toLowerCase().replace("html", "markup")}"> -->
-  <code class="">
-    {code[$currentLang]}
-  </code>
-</pre>  
+<div class="code">
+  <pre>
+    <code class="language-{$currentLang.toLowerCase().replace("html", "markup")}">
+    <!-- <code class=""> -->
+      {code[$currentLang]}
+    </code>
+  </pre> 
+</div> 
 
 <style>
+  .code {
+    height: calc(100% - 32px);
+    overflow-y: auto;
+  }
   .tab {
-    margin-top: 24px;
     display: flex;
     gap: 4px;
   }

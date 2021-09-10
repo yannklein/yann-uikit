@@ -18,4 +18,7 @@
   h2 {
     margin-bottom: 8px;
   }
+  p {
+    margin-bottom: 16px;
+  }
 </style>

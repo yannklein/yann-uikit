@@ -100,10 +100,68 @@ padding: 16px;
 
 const cards = {
   "Hello": {
-    "HTML": ``,
-    "CSS": ``,
-    "JS": ``
+    "HTML": 
+`<div class="card-hello">
+  <img src="image.jpg" alt="">
+  <div class="card-hello-info">
+    <h2>The Hello Card</h2>
+    <p>Some nice and subtle description</p>
+  </div>
+</div>`,
+    "CSS": 
+`/*Card Hello*/
+.card-hello {
+  /*fixed*/
+  display: flex;
+  flex-direction: column;
+  /*customizable*/
+  height: 300px;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 8px 16px rgb(0,0,0,0.3);
+}
+
+.card-hello img {
+  /*fixed*/
+  width: 100%;
+  object-fit: cover;
+  /*customizable*/
+  object-position: 50% 50%;
+  border-radius: 16px 16px 0 0;
+  height: 30%;
+  transition: height 1s ease;
+}
+
+.card-hello-info {
+  /*fixed*/
+  overflow: hidden;
+  /*customizable*/
+  padding: 16px;
+}
+
+.card-hello-info h2 {
+  /*customizable*/
+  margin: 16px 0;
+}
+
+/* De-activate card hover style for tablet/mobiles */
+@media (min-width: 1100px) {
+  .card-hello img:hover {
+    /*customizable*/
+    height: 70%;
   }
 }
 
-export default sections;
+.card-hello img.tapped {
+  /*customizable*/
+  height: 70%;
+}`,
+    "JS": 
+`document.querySelector(".card-hello img")
+  .addEventListener("click", (event) => {
+    event.currentTarget.classList.toggle("tapped");
+  });`
+  }
+};
+
+export { sections, cards};

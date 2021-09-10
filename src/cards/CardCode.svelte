@@ -1,11 +1,12 @@
 <script>
   import { fade } from 'svelte/transition';
-  export let showCode;
+  import Code from '../Code.svelte';
+  export let showCode, code;
 </script>
 
 <div class="code-popup" transition:fade="{{delay: 250, duration: 300}}">
   <div id="close" on:click={() => showCode(false)}>X</div>
-  Hello!
+    <Code code={code}/>
 </div>
 
 <style>
@@ -19,6 +20,9 @@
     width: 80vw;
     height: 80vh;
     box-shadow: 0 0 16px rgba(0,0,0,0.3);
+    overflow-y: scroll;
+    overflow-wrap: normal;
+    padding: 16px;
   }
   #close {
     position: absolute;

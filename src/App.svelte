@@ -3,7 +3,7 @@
 	import Hero from "./Hero.svelte";
 	import SectionSimple from "./SectionSimple.svelte";
   import SectionCards from "./SectionCards.svelte";
-	import sections from '../data/sections.js';
+	import { sections } from '../data/data.js';
 
 	const title="Yann's UI Kit ❐";
 	const description="A repo of interesting non-bootstrap UI components ready to use.";
