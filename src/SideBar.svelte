@@ -7,7 +7,6 @@
   let isShown = false;
   const toggleMenu = () => isShown = !isShown;
 
-
   const hrefify = title => `#${title.toLowerCase().replace(" ", "-")}-section`;
 </script>
 

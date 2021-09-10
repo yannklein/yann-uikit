@@ -1,7 +1,8 @@
 <script>
 	import SideBar from "./SideBar.svelte";
 	import Hero from "./Hero.svelte";
-	import Section from "./Section.svelte";
+	import SectionSimple from "./SectionSimple.svelte";
+  import SectionCards from "./SectionCards.svelte";
 	import sections from '../data/sections.js';
 
 	const title="Yann's UI Kit ❐";
@@ -12,9 +13,11 @@
 <div class="page-container">
 	<SideBar sections={sections.map(section => section.title)}/>
 	<div class="content-container">
-		{#each sections as section, index}
-			 <Section {...section} {index}/>
+		{#each sections.filter(sec => sec.code) as section}
+			<SectionSimple {...section}/>
 		{/each}
+    <SectionCards/>
+
 	</div>
 </div>
 
