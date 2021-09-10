@@ -19,7 +19,7 @@
 	<SideBar sections={sections}/>
 	<div class="content-container">
 		{#each sections as section}
-			<Section name={section}/>
+			<Section section={section}/>
 		{/each}
 	</div>
 </div>
@@ -55,5 +55,4 @@
     width: 300px;
   }
 }
-
 </style>
