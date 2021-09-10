@@ -20,9 +20,9 @@ a {
     },
 		{ "title": "Responsive container",
       "code": {
-        "HTML": "",
-        "CSS": "",
-        "JS": ""
+        "HTML": "ds",
+        "CSS": "da",
+        "JS": "d"
       }
     },
 		{ "title": "Page frame",
