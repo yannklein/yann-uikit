@@ -5,7 +5,7 @@
 
 <div class="navbar-vanilla">
   <a class="navbar-vanilla-section" href="#home">
-    <img class="navbar-vanilla-logo" src="images/youtube.png" alt="youtube">
+    <img class="navbar-vanilla-logo" src="youtube.png" alt="youtube">
     <h2 class="navbar-vanilla-brand" >Vanilla CSS navbar</h2>
   </a>
   <div class="navbar-vanilla-section">

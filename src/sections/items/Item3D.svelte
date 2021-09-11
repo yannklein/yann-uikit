@@ -4,7 +4,7 @@
     <p>An icon that pops up out of the card.</p>
   </div>
   <div class="item-3d-icon">
-    <img src="images/youtube.png" alt="">
+    <img src="youtube.png" alt="">
   </div>
 </div>
 
