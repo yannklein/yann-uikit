@@ -1,9 +1,4 @@
-<script>
-  let tapped = false;
-  const toggleCard = () => tapped = !tapped;
-</script>
-
-<div class="card-identity" on:click={toggleCard} style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
+<div class="card-identity" style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
   <div class="card-identity-content">
     <div class="card-identity-avatar">
         <img src="https://avatars2.githubusercontent.com/u/26819547?s=400&u=ae79d8825ad1127723641cbf32a9a7e2ec221e7f&v=4" alt="avatar" class="card-identity-img">

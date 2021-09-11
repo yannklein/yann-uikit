@@ -2,14 +2,12 @@
   import Icon from 'fa-svelte'
   import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp'
   import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown'
-  let tapped = false;
-  const toggleCard = () => tapped = !tapped;
 
   let isShown = false;
   const toggleShow = () => isShown = !isShown; 
 </script>
 
-<div class="card-skills" on:click={toggleCard}>
+<div class="card-skills">
   <div class="card-skills-img" style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
     <h2>The skills card</h2>
   </div>

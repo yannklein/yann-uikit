@@ -28,6 +28,7 @@
     align-items: flex-end;
   }
   h3 {
+    z-index: 10;
     display: flex;
     align-items: center;
     width: fit-content;

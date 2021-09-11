@@ -1,62 +1,68 @@
-<script>
-  let tapped = false;
-  const toggleCard = () => tapped = !tapped;
-</script>
-
-<div class="card-hello" on:click={toggleCard}>
-  <img class:tapped src="https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="">
-  <div class="card-hello-info">
-    <h2>The Hello Card</h2>
-    <p>The image gets bigger when you hover over it (or tap it on mobile). The info of the card gets hidden when the card gets bigger.</p>
+<div class="card-neumorph">
+  <div class="card-neumorph-buttons">
+    <p>⚭</p>
+    <p>Y</p>
+    <p>⌬</p>
   </div>
+  <h2>The <a href="https://neumorphism.io">Neumorphism</a> card</h2>
 </div>
 
 <style>
-  /*Card Hello*/
-  .card-hello {
-    /*fixed*/
+  .card-neumorph {
+    /*customizable*/
     display: flex;
     flex-direction: column;
-    /*customizable*/
+    align-items: center;
+    justify-content: space-evenly;
     height: 300px;
-    border-radius: 16px;
-    background-color: white;
-    box-shadow: 0 8px 16px rgb(0,0,0,0.3);
+    border-radius: 24px;
+    background: -webkit-linear-gradient(55deg, #8aa0db, #a4beff);
+    background: -o-linear-gradient(55deg, #8aa0db, #a4beff);
+    background: linear-gradient(145deg, #8aa0db, #a4beff);
+    box-shadow: 10px 10px 30px #8297cf,
+        -10px -10px 30px #b0cdff;
   }
-
-  .card-hello img {
-    /*fixed*/
+  .card-neumorph-buttons {
+    /*customizable*/
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
     width: 100%;
-    object-fit: cover;
-    /*customizable*/
-    object-position: 50% 50%;
-    border-radius: 16px 16px 0 0;
-    height: 30%;
-    transition: height 1s ease;
   }
-
-  .card-hello-info {
+  .card-neumorph h2 {
+    /*customizable*/
+    font-size: 32px;
+    margin: 0;
+    text-align: center;
+    color: #8aa0db;
+    text-shadow: 2px 2px 4px #a4beff;
+  }
+  .card-neumorph-buttons p {
+    /*customizable*/
+    display: flex;
+    font-size: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    height: 64px;
+    width: 64px;
+    margin: 0;
+    cursor: pointer;
+    color: #6a80bb;
+    text-shadow: 2px 2px 6px #a4beff;
+    background: -webkit-linear-gradient(55deg, #8aa0db, #a4beff);
+    background: -o-linear-gradient(55deg, #8aa0db, #a4beff);
+    background: linear-gradient(145deg, #8aa0db, #a4beff);
+    box-shadow: 10px 10px 30px #8297cf,
+        -10px -10px 30px #b0cdff;
+  }
+  .card-neumorph-buttons p:active {
     /*fixed*/
-    overflow: hidden;
-    /*customizable*/
-    padding: 16px;
+    box-shadow: none;
   }
-
-  .card-hello-info h2 {
+  .card-neumorph a {
     /*customizable*/
-    margin: 16px 0;
-  }
-
-  .card-hello img.tapped {
-    /*customizable*/
-    height: 70%;
-  }
-
-  /* De-activate card hover style for tablet/mobiles */
-  @media (min-width: 1100px) {
-    .card-hello img:hover {
-      /*customizable*/
-      height: 70%;
-    }
+    color: #6a80bb;
+    text-shadow: 2px 2px 6px #a4beff;
   }
 </style>

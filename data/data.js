@@ -331,6 +331,7 @@ const cards = {
   border-radius: 16px;
   background-size: cover;
   background-position: 50% 50%;
+  width: 100%;
 }
 .card-identity-content {
   /*customizable*/
@@ -397,6 +398,7 @@ const cards = {
     position: relative;
     /*customizable*/
     height: 300px;
+    width: 100%;
 }
 .card-diapo-img {
     /*fixed*/
@@ -444,6 +446,156 @@ setInterval(() => {
   cardDiapoImgs[imgIndex].classList.add("show");
   imgIndex = (imgIndex + 1) % cardDiapoImgs.length;
 }, 5000);`
+  },
+  "neumorph": {
+    "HTML":
+`<div class="card-neumorph">
+<div class="card-neumorph-buttons">
+  <p>⚭</p>
+  <p>Y</p>
+  <p>⌬</p>
+</div>
+<h2>The <a href="https://neumorphism.io">Neumorphism</a> card</h2>
+</div>`,
+"CSS":
+`.card-neumorph {
+  /*customizable*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 300px;
+  border-radius: 24px;
+  background: -webkit-linear-gradient(55deg, #8aa0db, #a4beff);
+  background: -o-linear-gradient(55deg, #8aa0db, #a4beff);
+  background: linear-gradient(145deg, #8aa0db, #a4beff);
+  box-shadow: 10px 10px 30px #8297cf,
+      -10px -10px 30px #b0cdff;
+  width: 100%;
+}
+.card-neumorph-buttons {
+  /*customizable*/
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.card-neumorph h2 {
+  /*customizable*/
+  font-size: 32px;
+  margin: 0;
+  text-align: center;
+  color: #8aa0db;
+  text-shadow: 2px 2px 4px #a4beff;
+}
+.card-neumorph-buttons p {
+  /*customizable*/
+  display: flex;
+  font-size: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+  margin: 0;
+  cursor: pointer;
+  color: #6a80bb;
+  text-shadow: 2px 2px 6px #a4beff;
+  background: -webkit-linear-gradient(55deg, #8aa0db, #a4beff);
+  background: -o-linear-gradient(55deg, #8aa0db, #a4beff);
+  background: linear-gradient(145deg, #8aa0db, #a4beff);
+  box-shadow: 10px 10px 30px #8297cf,
+      -10px -10px 30px #b0cdff;
+}
+.card-neumorph-buttons p:active {
+  /*fixed*/
+  box-shadow: none;
+}
+.card-neumorph a {
+  /*customizable*/
+  color: #6a80bb;
+  text-shadow: 2px 2px 6px #a4beff;
+}`,
+  },
+  "stack": {
+    "HTML":
+`<div class="card-stack">
+<a href="https://en.wikipedia.org/wiki/Alps" class="card-stack-item" style="background-image: url(image1.jpg)">
+  <h2>Third item</h2>
+  <p>A third item card that looks great</p>
+</a>
+<a href="https://en.wikipedia.org/wiki/Antelope_Canyon" class="card-stack-item" style="background-image: url(url(image2.jpg)">
+  <h2>Second item</h2>
+  <p>A second item card that looks great</p>
+</a>
+<a href="https://en.wikipedia.org/wiki/Canal_du_Midi" class="card-stack-item" style="background-image: url(url(image3.jpg)">
+  <h2>First item</h2>
+  <p>A first item card that looks great. ( to be used for Desktop view)</p>
+</a>
+</div>`,
+    "CSS":
+`.card-stack {
+  /*fixed*/
+  position: relative;
+  perspective: 400px;
+  /*customizable*/
+  height: 300px;
+  width: 100%;
+}
+.card-stack-item {
+  /*fixed*/
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  /*customizable*/
+  color: white;
+  text-shadow: 0 0 8px rgba(0,0,0,0.3);
+  box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform .3s;
+}
+
+:root {
+  /*customizable*/
+  --offset: -38px;
+  --rotation: -30deg;
+}
+
+.card-stack-item:nth-child(1) {
+  /*customizable*/
+  transform: translateX(calc(32px + var(--offset))) rotateY(var(--rotation));
+}
+.card-stack-item:nth-child(2) {
+  /*customizable*/
+  transform: translateX(calc(0px + var(--offset))) rotateY(var(--rotation));
+}
+.card-stack-item:nth-child(3) {
+  /*customizable*/
+  transform: translateX(calc(-32px + var(--offset))) rotateY(var(--rotation));
+}
+
+.card-stack-item:not(:last-child):hover {
+  /*customizable*/
+  transform: rotateY(-10deg) translateX(160px);
+}
+
+.card-stack-item h2 {
+  /*fixed*/
+  margin: 0;
+  /*customizable*/
+  font-size: 32px;
+}
+
+.card-stack-item p {
+  /*customizable*/
+  margin: 0 32px;
+}`
   }
 };
 

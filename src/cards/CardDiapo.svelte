@@ -1,7 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-  let tapped = false;
-  const toggleCard = () => tapped = !tapped;
 
   onMount(() => {
     let imgIndex = 1;
@@ -16,7 +14,7 @@
   });
 </script>
 
-<div class="card-diapo" on:click={toggleCard}>
+<div class="card-diapo">
   <div class="card-diapo-img show" style="background-image: url(https://fr.web.img4.acsta.net/newsv7/16/07/22/12/35/275530.jpg); background-position-x: left">
     <div class="card-diapo-text">
       <h2>The Bad</h2>

@@ -24,29 +24,6 @@
     <CardTemplate cardType="diapo"><CardDiapo /></CardTemplate>
     <CardTemplate cardType="neumorph"><CardNeumorph /></CardTemplate>
     <CardTemplate cardType="stack"><CardStack /></CardTemplate>
-    
-    <div class="card-neumorph">
-      <div class="card-neumorph-buttons">
-        <p>⚭</p>
-        <p>Y</p>
-        <p>⌬</p>
-      </div>
-      <h2>The <a href="https://neumorphism.io">Neumorphism</a> card</h2>
-    </div>
-    <div class="card-stack">
-      <a href="https://en.wikipedia.org/wiki/Alps" class="card-stack-item" style="background-image: url(https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260)">
-        <h2>Third item</h2>
-        <p>A third item card that looks great</p>
-      </a>
-      <a href="https://en.wikipedia.org/wiki/Antelope_Canyon" class="card-stack-item" style="background-image: url(https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260)">
-        <h2>Second item</h2>
-        <p>A second item card that looks great</p>
-      </a>
-      <a href="https://en.wikipedia.org/wiki/Canal_du_Midi" class="card-stack-item" style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
-        <h2>First item</h2>
-        <p>A first item card that looks great. ( to be used for Desktop view)</p>
-      </a>
-    </div>
   </div>
 </div>
 

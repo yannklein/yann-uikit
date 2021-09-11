@@ -1,9 +1,4 @@
-<script>
-  let tapped = false;
-  const toggleCard = () => tapped = !tapped;
-</script>
-
-<div class="card-pick" on:click={toggleCard}>
+<div class="card-pick">
   <img src="https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="">
   <div class="card-pick-info">
     <h2>The Pick card</h2>
