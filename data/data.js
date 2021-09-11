@@ -512,7 +512,7 @@ setInterval(() => {
   box-shadow: none;
 }
 .card-neumorph a {
-  /*customizable*/
+  /*customizable*/g
   color: #6a80bb;
   text-shadow: 2px 2px 6px #a4beff;
 }`,
