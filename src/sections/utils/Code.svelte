@@ -13,10 +13,10 @@
   let isCopied = false;
   const copyCode = () => {
     isCopied = true;
+    navigator.clipboard.writeText(code[$currentLang]);
     setTimeout(() => {
       isCopied = false;
     }, 1000);
-    // copy(styledCode[$currentLang])
   }
 </script>
 
