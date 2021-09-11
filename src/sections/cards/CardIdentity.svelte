@@ -15,6 +15,7 @@
     align-items: center;
     /*customizable*/
     height: 300px;
+    width: 100%;
     border-radius: 16px;
     background-size: cover;
     background-position: 50% 50%;

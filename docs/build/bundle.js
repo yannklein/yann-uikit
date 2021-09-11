@@ -1,5 +1,5 @@
 
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 var app = (function () {
     'use strict';
 
@@ -1776,6 +1776,7 @@ setInterval(() => {
   align-items: center;
   justify-content: space-evenly;
   height: 300px;
+  width: 100%;
   border-radius: 24px;
   background: -webkit-linear-gradient(55deg, #8aa0db, #a4beff);
   background: -o-linear-gradient(55deg, #8aa0db, #a4beff);
@@ -5235,17 +5236,17 @@ setInterval(() => {
     			p.textContent = "A card convenient to depict someone's identity.";
     			if (!src_url_equal(img.src, img_src_value = "https://avatars2.githubusercontent.com/u/26819547?s=400&u=ae79d8825ad1127723641cbf32a9a7e2ec221e7f&v=4")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "avatar");
-    			attr_dev(img, "class", "card-identity-img svelte-1j7gn06");
+    			attr_dev(img, "class", "card-identity-img svelte-trdgqn");
     			add_location(img, file$d, 3, 8, 262);
-    			attr_dev(h2, "class", "svelte-1j7gn06");
+    			attr_dev(h2, "class", "svelte-trdgqn");
     			add_location(h2, file$d, 4, 8, 424);
-    			attr_dev(div0, "class", "card-identity-avatar svelte-1j7gn06");
+    			attr_dev(div0, "class", "card-identity-avatar svelte-trdgqn");
     			add_location(div0, file$d, 2, 4, 219);
-    			attr_dev(p, "class", "svelte-1j7gn06");
+    			attr_dev(p, "class", "svelte-trdgqn");
     			add_location(p, file$d, 6, 4, 460);
-    			attr_dev(div1, "class", "card-identity-content svelte-1j7gn06");
+    			attr_dev(div1, "class", "card-identity-content svelte-trdgqn");
     			add_location(div1, file$d, 1, 2, 179);
-    			attr_dev(div2, "class", "card-identity svelte-1j7gn06");
+    			attr_dev(div2, "class", "card-identity svelte-trdgqn");
     			set_style(div2, "background-image", "url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)");
     			add_location(div2, file$d, 0, 0, 0);
     		},
@@ -5881,20 +5882,20 @@ setInterval(() => {
     			a = element("a");
     			a.textContent = "Neumorphism";
     			t8 = text(" card");
-    			attr_dev(p0, "class", "svelte-y33uwg");
+    			attr_dev(p0, "class", "svelte-n84m1p");
     			add_location(p0, file$9, 2, 4, 70);
-    			attr_dev(p1, "class", "svelte-y33uwg");
+    			attr_dev(p1, "class", "svelte-n84m1p");
     			add_location(p1, file$9, 3, 4, 83);
-    			attr_dev(p2, "class", "svelte-y33uwg");
+    			attr_dev(p2, "class", "svelte-n84m1p");
     			add_location(p2, file$9, 4, 4, 96);
-    			attr_dev(div0, "class", "card-neumorph-buttons svelte-y33uwg");
+    			attr_dev(div0, "class", "card-neumorph-buttons svelte-n84m1p");
     			add_location(div0, file$9, 1, 2, 30);
     			attr_dev(a, "href", "https://neumorphism.io");
-    			attr_dev(a, "class", "svelte-y33uwg");
+    			attr_dev(a, "class", "svelte-n84m1p");
     			add_location(a, file$9, 6, 10, 124);
-    			attr_dev(h2, "class", "svelte-y33uwg");
+    			attr_dev(h2, "class", "svelte-n84m1p");
     			add_location(h2, file$9, 6, 2, 116);
-    			attr_dev(div1, "class", "card-neumorph svelte-y33uwg");
+    			attr_dev(div1, "class", "card-neumorph svelte-n84m1p");
     			add_location(div1, file$9, 0, 0, 0);
     		},
     		l: function claim(nodes) {

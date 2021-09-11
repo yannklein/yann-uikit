@@ -15,6 +15,7 @@
     align-items: center;
     justify-content: space-evenly;
     height: 300px;
+    width: 100%;
     border-radius: 24px;
     background: -webkit-linear-gradient(55deg, #8aa0db, #a4beff);
     background: -o-linear-gradient(55deg, #8aa0db, #a4beff);
@@ -28,6 +29,7 @@
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
+
   }
   .card-neumorph h2 {
     /*customizable*/
