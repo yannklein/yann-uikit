@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte';
   import Icon from 'fa-svelte'
   import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit'
   import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'

@@ -690,6 +690,154 @@ const items = {
   .addEventListener("click", (event) => {
     document.querySelector(".item-drawer").classList.toggle("active");
   });`
+  },
+  "3d": {
+    "HTML":
+`<div class="item-3d">
+<div class="item-3d-content">
+  <h2>The 3D item</h2>
+  <p>An icon that pops up out of the card.</p>
+</div>
+<div class="item-3d-icon">
+  <img src="images/youtube.png" alt="">
+</div>
+</div>`,
+    "CSS":
+`.item-3d {
+  /*fixed*/
+  display: flex;
+  align-items: center;
+  min-width: 100%;
+  /*customizable*/
+  height: 120px;
+  border-radius: 16px;
+  box-shadow: 0 0 16px rgba(0,0,0,0.3);
+}
+
+.item-3d h2 {
+  /*customizable*/
+  margin: 0;
+}
+
+.item-3d p {
+  /*customizable*/
+  margin: 0;
+}
+
+.item-3d-content {
+  /*fixed*/
+  flex-grow: 1;
+  /*customizable*/
+  background-color: rgb(250,250,250);
+  padding-left: 32px;
+}
+
+.item-3d-icon {
+  /*fixed*/
+  position: relative;
+  /*customizable*/
+  width: 200px;
+}
+
+.item-3d-icon img {
+  /*fixed*/
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /*customizable*/
+  transform: translate(-50%, -60%);
+  height: 150px;
+  width: 150px;
+}
+
+/* Mobile phones (portrait) adn smaller */
+@media (max-width: 576px) {
+  .item-3d-icon img {
+    transform: translate(-30%, -50%);
+    height: 120px;
+    width: 120px;
+  }
+}`
+  },
+  "flip": {
+    "HTML":
+`<div class="item-3d">
+<div class="item-3d-content">
+  <h2>The 3D item</h2>
+  <p>An icon that pops up out of the card.</p>
+</div>
+<div class="item-3d-icon">
+  <img src="images/youtube.png" alt="">
+</div>
+</div>`,
+    "CSS":
+`.item-flip {
+  /*customizable*/
+  height: 120px;
+  width: 100%;
+}
+
+.item-flip-inner {
+  /*fixed*/
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.item-flip h2 {
+  /*customizable*/
+  margin: 0;
+}
+
+.item-flip p {
+  /*customizable*/
+  margin: 0;
+}
+
+.item-flip-front, .item-flip-back {
+  /*fixed*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /*customizable*/
+  border-radius: 16px;
+  box-shadow: 0 0 16px rgba(0,0,0,0.3);
+  background-color: rgb(250,250,250);
+}
+
+.item-flip-content {
+  padding-left: 24px;
+}
+
+.item-flip-back {
+  transform: rotateX(180deg);
+}
+
+.item-flip.flipped .item-flip-inner {
+  transform: rotateX(180deg);
+}
+
+/* De-activate card hover style for mobiles */
+@media (min-width: 1100px) {
+  .item-flip:hover .item-flip-inner {
+  transform: rotateX(180deg);
+}
+}`,
+  "JS": 
+`document.querySelector(".item-flip")
+  .addEventListener("click", (event) => {
+    event.currentTarget.classList.toggle("flipped");
+  });`
   }
 };
 
