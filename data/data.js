@@ -91,7 +91,7 @@ a {
   { 
     "title": "Cards",
   },
-  { "title": "Item cards",
+  { "title": "Items",
   },
   { 
     "title": "Navbar",
