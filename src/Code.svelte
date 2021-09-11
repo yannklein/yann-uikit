@@ -34,7 +34,7 @@
     gap: 4px;
   }
   .tab h3 {
-    border-radius: 4px;;
+    border-radius: 4px;
     background-color: #F4F2F0;
     padding: 4px 8px;
     box-shadow: 4px 4px 4px rgba(0,0,0,0.1);

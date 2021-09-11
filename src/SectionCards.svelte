@@ -1,6 +1,7 @@
 <script>
   import { writable } from 'svelte/store';
   import CardHello from './cards/CardHello.svelte';
+  import CardTemplate from './cards/CardTemplate.svelte';
 
 	const currentCard = writable(null);
 
@@ -10,7 +11,9 @@
 <div id="cards-section" class="page-section">
   <h2>❐ Cards</h2>
   <div class="cards">
-    <CardHello/>
+    <CardTemplate cardType="Hello">
+      <CardHello />
+    </CardTemplate>
     <div class="card-pick">
       <img src="https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="">
       <div class="card-pick-info">
