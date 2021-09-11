@@ -309,6 +309,141 @@ const cards = {
     event.currentTarget.querySelector("i").classList.toggle("fa-chevron-up");
 })
 `
+  },
+  "identity": {
+    "HTML": 
+`<div class="card-identity" style="background-image: url(background.jpg)">
+<div class="card-identity-content">
+  <div class="card-identity-avatar">
+      <img src="avatar.jpg" alt="avatar" class="card-identity-img">
+      <h2>The ID card</h2>
+  </div>
+  <p>A card convenient to depict someone's identity.</p>
+</div>
+</div>`,
+    "CSS": 
+`.card-identity {
+  /*fixed*/
+  display: flex;
+  align-items: center;
+  /*customizable*/
+  height: 300px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+.card-identity-content {
+  /*customizable*/
+  padding: 24px;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  background-color: rgba(250, 250, 250, 0.5);
+}
+.card-identity-avatar {
+  /*fixed*/
+  display: flex;
+  align-items: center;
+}
+.card-identity-avatar img {
+  /*fixed*/
+  object-fit: cover;
+  border-radius: 50%;
+  /*customizable*/
+  width: 64px;
+  height: 64px;
+  object-position: 50% 50%;
+  margin-right: 16px;
+}
+.card-identity-avatar h2 {
+  /*fixed*/
+  margin: 0;
+}
+.card-identity-content {
+  /*fixed*/
+  width: 100%;
+}
+.card-identity-content p {
+  /*fixed*/
+  margin: 0;
+  margin-top: 16px;
+}`
+  },
+  "diapo": {
+    "HTML":
+`<div class="card-diapo" on:click={toggleCard}>
+  <div class="card-diapo-img show" style="background-image: url(image1.jpg)">
+    <div class="card-diapo-text">
+      <h2>The Bad</h2>
+      <p>The diapo card</p>
+    </div>
+  </div>
+  <div class="card-diapo-img" style="background-image: url(image2.jpg)">
+    <div class="card-diapo-text">
+      <h2>The Good</h2>
+      <p>The diapo card</p>
+    </div>
+  </div>
+  <div class="card-diapo-img" style="background-image: url(image3.jpg)">
+    <div class="card-diapo-text">
+      <h2>The Ugly</h2>
+      <p>The diapo card</p>
+    </div>
+  </div>
+</div>`,
+    "CSS":
+`/*Card diapo*/
+.card-diapo {
+    /*fixed*/
+    position: relative;
+    /*customizable*/
+    height: 300px;
+}
+.card-diapo-img {
+    /*fixed*/
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    opacity: 0;
+    /*customizable*/
+    border-radius: 16px;
+    transition: opacity 3s ease-out;
+}
+.card-diapo-img.show {
+    /*fixed*/
+    opacity: 1;
+}
+.card-diapo-text {
+    /*fixed*/
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*customizable*/
+    color: rgb(240, 240, 240);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+.card-diapo-text h2 {
+    /*fixed*/
+    margin: 0;
+    /*customizable*/
+    font-size: 32px;
+}
+.card-diapo-text p {
+    /*fixed*/
+    margin: 0;
+}`,
+    "JS":
+`let imgIndex = 1;
+const cardDiapoImgs = document.querySelectorAll(".card-diapo-img");
+setInterval(() => {
+  cardDiapoImgs.forEach(cardDiapoImg => {
+    cardDiapoImg.classList.remove("show");
+  });
+  cardDiapoImgs[imgIndex].classList.add("show");
+  imgIndex = (imgIndex + 1) % cardDiapoImgs.length;
+}, 5000);`
   }
 };
 

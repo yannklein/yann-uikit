@@ -1,8 +1,12 @@
 <script>
   import { writable } from 'svelte/store';
   import CardHello from './cards/CardHello.svelte';
+  import CardIdentity from './cards/CardIdentity.svelte';
   import CardPick from './cards/CardPick.svelte';
   import CardSkills from './cards/CardSkills.svelte';
+  import CardDiapo from './cards/CardDiapo.svelte';
+  import CardNeumorph from './cards/CardNeumorph.svelte';
+  import CardStack from './cards/CardStack.svelte';
   import CardTemplate from './cards/CardTemplate.svelte';
 
 	const currentCard = writable(null);
@@ -13,74 +17,14 @@
 <div id="cards-section" class="page-section">
   <h2>❐ Cards</h2>
   <div class="cards">
-    <CardTemplate cardType="hello">
-      <CardHello />
-    </CardTemplate>
-    <CardTemplate cardType="pick">
-      <CardPick />
-    </CardTemplate>
-    <CardTemplate cardType="skills">
-      <CardSkills />
-    </CardTemplate>
+    <CardTemplate cardType="hello"><CardHello /></CardTemplate>
+    <CardTemplate cardType="pick"><CardPick /></CardTemplate>
+    <CardTemplate cardType="skills"><CardSkills /></CardTemplate>
+    <CardTemplate cardType="identity"><CardIdentity /></CardTemplate>
+    <CardTemplate cardType="diapo"><CardDiapo /></CardTemplate>
+    <CardTemplate cardType="neumorph"><CardNeumorph /></CardTemplate>
+    <CardTemplate cardType="stack"><CardStack /></CardTemplate>
     
-
-
-    <div class="card-identity" style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
-      <div class="card-identity-content">
-        <div class="card-identity-avatar">
-            <img src="https://avatars2.githubusercontent.com/u/26819547?s=400&u=ae79d8825ad1127723641cbf32a9a7e2ec221e7f&v=4" class="card-identity-img">
-            <h2>The ID card</h2>
-        </div>
-        <p>A card convenient to depict someone's identity.</p>
-      </div>
-    </div>
-
-    <div class="card-identity" style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
-      <div class="card-identity-content">
-        <div class="card-identity-avatar">
-            <img src="https://avatars2.githubusercontent.com/u/26819547?s=400&u=ae79d8825ad1127723641cbf32a9a7e2ec221e7f&v=4" class="card-identity-img">
-            <h2>The ID card</h2>
-        </div>
-        <p>A card convenient to depict someone's identity.</p>
-        <ul style="padding: 0 16px">
-          <li>Big enough</li>
-          <li>If we want to add</li>
-          <li>Additional infos</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card-diapo">
-      <div class="card-diapo-img show" style="background-image: url(https://fr.web.img4.acsta.net/newsv7/16/07/22/12/35/275530.jpg); background-position-x: left">
-        <div class="card-diapo-text">
-          <h2>The Bad</h2>
-          <p>The diapo card</p>
-        </div>
-      </div>
-      <div class="card-diapo-img" style="background-image: url(https://fr.web.img4.acsta.net/newsv7/16/07/22/12/35/275530.jpg); background-position-x: center">
-        <div class="card-diapo-text">
-          <h2>The Good</h2>
-          <p>The diapo card</p>
-        </div>
-      </div>
-      <div class="card-diapo-img" style="background-image: url(https://fr.web.img4.acsta.net/newsv7/16/07/22/12/35/275530.jpg); background-position-x: right">
-        <div class="card-diapo-text">
-          <h2>The Ugly</h2>
-          <p>The diapo card</p>
-        </div>
-      </div>
-      <script>
-        let imgIndex = 1;
-        const cardDiapoImgs = document.querySelectorAll(".card-diapo-img");
-        setInterval(() => {
-          cardDiapoImgs.forEach(cardDiapoImg => {
-            cardDiapoImg.classList.remove("show");
-          });
-          cardDiapoImgs[imgIndex].classList.add("show");
-          imgIndex = (imgIndex + 1) % cardDiapoImgs.length;
-        }, 5000);
-      </script>
-    </div>
     <div class="card-neumorph">
       <div class="card-neumorph-buttons">
         <p>⚭</p>
