@@ -3,6 +3,7 @@
 	import Hero from "./Hero.svelte";
 	import SectionSimple from "./SectionSimple.svelte";
   import SectionCards from "./SectionCards.svelte";
+  import SectionItems from "./SectionItems.svelte";
 	import { sections } from '../data/data.js';
 
 	const title="Yann's UI Kit ❐";
@@ -17,6 +18,7 @@
 			<SectionSimple {...section}/>
 		{/each}
     <SectionCards/>
+    <SectionItems/>
 
 	</div>
 </div>

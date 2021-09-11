@@ -1,15 +1,14 @@
 <script>
-	import { cards } from '../../data/data.js';
   import CardCode from "./CodePopup.svelte";
   import { writable } from 'svelte/store';
   import Icon from 'fa-svelte'
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+	import { cards, items } from '../data/data.js';
   
-  export let cardType;
+  export let type, comp;
+  const data = { cards, items};
 
   const codeShown = writable(false);
-  let tapped = false;
-  const toggleCard = () => tapped = !tapped;
   const showCode = (newStatus) => (codeShown.set(newStatus))
 </script>
 
@@ -18,7 +17,7 @@
   <slot></slot>
 </div>
 {#if $codeShown}
-  <CardCode {showCode} code={cards[cardType]}/>
+  <CardCode {showCode} code={data[type][comp]}/>
 {/if}
 
 <style>

@@ -18,6 +18,7 @@
     display: flex;
     flex-direction: column;
     /*customizable*/
+    width: 100%;
     height: 300px;
     border-radius: 16px;
     background-color: white;
