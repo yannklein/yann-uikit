@@ -1,6 +1,8 @@
 <script>
   import { writable } from 'svelte/store';
   import CardHello from './cards/CardHello.svelte';
+  import CardPick from './cards/CardPick.svelte';
+  import CardSkills from './cards/CardSkills.svelte';
   import CardTemplate from './cards/CardTemplate.svelte';
 
 	const currentCard = writable(null);
@@ -11,45 +13,16 @@
 <div id="cards-section" class="page-section">
   <h2>❐ Cards</h2>
   <div class="cards">
-    <CardTemplate cardType="Hello">
+    <CardTemplate cardType="hello">
       <CardHello />
     </CardTemplate>
-    <div class="card-pick">
-      <img src="https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="">
-      <div class="card-pick-info">
-        <h2>The Pick card</h2>
-        <p>It goes up when you hover over it.</p>
-      </div>
-    </div>
-    <div class="card-skills">
-      <div class="card-skills-img" style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
-        <h2>The skill card</h2>
-      </div>
-      <div class="card-skills-info">
-        <div class="card-skills-info-content">
-          <p>A card with a collapsable list of skills.</p>
-          <ul>
-            <li>🧠 an Einstein-level brain</li>
-            <li>🐘 the memory of an elephant</li>
-            <li>💪 Norrissian muscles</li>
-            <li>🎸 a rock-star creativity</li>
-            <li>🍷 romantic enough to shame a Frenchman</li>
-            <li>👾 geeker than a 4chan teenager</li>
-          </ul>
-        </div>
-        <div class="card-skills-info-more">
-          <i class="fa fa-chevron-down" aria-hidden="true"></i> More
-        </div>
-      </div>
-    <script>
-      document.querySelector(".card-skills-info-more")
-        .addEventListener("click" , (event) => {
-          document.querySelector(".card-skills-info").classList.toggle("show");
-          event.currentTarget.querySelector("i").classList.toggle("fa-chevron-down");
-          event.currentTarget.querySelector("i").classList.toggle("fa-chevron-up");
-      })
-    </script>
-    </div>
+    <CardTemplate cardType="pick">
+      <CardPick />
+    </CardTemplate>
+    <CardTemplate cardType="skills">
+      <CardSkills />
+    </CardTemplate>
+    
 
 
     <div class="card-identity" style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">

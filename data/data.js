@@ -99,7 +99,7 @@ a {
 ];
 
 const cards = {
-  "Hello": {
+  "hello": {
     "HTML": 
 `<div class="card-hello">
   <img src="image.jpg" alt="">
@@ -162,7 +162,154 @@ const cards = {
     event.currentTarget.classList.toggle("tapped");
   });`
   },
-  
+  "pick": {
+    "HTML": 
+`<div class="card-pick">
+  <img src="image.jpg" alt="">
+  <div class="card-pick-info">
+    <h2>The Pick card</h2>
+    <p>It goes up when you hover over it.</p>
+  </div>
+</div>`,
+    "CSS": 
+`/*Card pick*/
+.card-pick {
+  /*fixed*/
+  display: flex;
+  flex-direction: column;
+  /*customizable*/
+  height: 300px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
+}
+.card-pick img {
+  /*fixed*/
+  width: 100%;
+  min-height: 100px;
+  flex-grow: 1;
+  object-fit: cover;
+  /*customizable*/
+  object-position: 50% 50%;
+  border-radius: 4px 4px 0 0;
+}
+.card-pick-info {
+  /*customizable*/
+  padding: 16px;
+}
+.card-pick-info h2 {
+  /*customizable*/
+  margin: 16px 0;
+}
+.card-pick:hover {
+  /*customizable*/
+  transition: 0.2s ease-out;
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgb(0, 0, 0, 0.3);
+}`
+  },
+  "skills": {
+    "HTML":
+`<div class="card-skills">
+  <div class="card-skills-img" style="background-image: url(background.jpg)">
+    <h2>The skills card</h2>
+  </div>
+  <div class="card-skills-info">
+    <div class="card-skills-info-content">
+      <p>A card with a collapsable list of skills.</p>
+      <ul>
+        <li>🧠 an Einstein-level brain</li>
+        <li>🐘 the memory of an elephant</li>
+        <li>💪 Norrissian muscles</li>
+        <li>🎸 a rock-star creativity</li>
+        <li>🍷 romantic enough to shame a Frenchman</li>
+        <li>👾 geeker than a 4chan teenager</li>
+      </ul>
+    </div>
+    <div class="card-skills-info-more" on:click={toggleShow}>
+    <i class="fa fa-chevron-down" aria-hidden="true"></i> More
+    </div>
+  </div>
+</div>`,
+  "CSS": 
+`/*Card skills*/
+.card-skills {
+  /*fixed*/
+  display: flex;
+  flex-direction: column;
+  /*customizable*/
+  width: 100%;
+  height: 300px;
+  position: relative;
+}
+.card-skills-img {
+  /*fixed*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100px;
+  background-size: cover;
+  /*customizable*/
+  background-position: 50% 50%;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
+}
+.card-skills-img h2 {
+  /*customizable*/
+  color: white;
+  margin: 0;
+  text-shadow: 0 0 8px rgb(0, 0, 0, 0.3);
+}
+.card-skills-info {
+  /*fixed*/
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  /*customizable*/
+  height: 200px;
+  width: 100%;
+  border-radius: 0 0 4px 4px;
+  background-color: white;
+  position: absolute;
+  top: 100px;
+  box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
+  transition: height 0.3s ease-out;
+}
+.card-skills-info-content {
+  /*fixed*/
+  overflow: hidden;
+  flex-grow: 1;
+  /*customizable*/
+  padding: 0 32px;
+}
+.card-skills-info ul {
+  /*customizable*/
+  list-style: none;
+}
+.card-skills-info-more {
+  /*fixed*/
+  width: 100%;
+  /*customizable*/
+  padding: 8px 0;
+  background-color: rgb(240, 240, 240);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 0 0 4px 4px;
+}
+.card-skills-info.show {
+  /*fixed*/
+  height: 100%;
+}`,
+    "JS": 
+`document.querySelector(".card-skills-info-more")
+  .addEventListener("click" , (event) => {
+    document.querySelector(".card-skills-info").classList.toggle("show");
+    event.currentTarget.querySelector("i").classList.toggle("fa-chevron-down");
+    event.currentTarget.querySelector("i").classList.toggle("fa-chevron-up");
+})
+`
+  }
 };
 
 export { sections, cards};
