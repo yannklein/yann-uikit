@@ -1,6 +1,5 @@
 <script>
-  import { writable } from 'svelte/store';
-  import ComponentWrapper from './ComponentWrapper.svelte';
+  import ComponentWrapper from './utils/ComponentWrapper.svelte';
 
   import CardHello from './cards/CardHello.svelte';
   import CardIdentity from './cards/CardIdentity.svelte';
@@ -8,11 +7,7 @@
   import CardSkills from './cards/CardSkills.svelte';
   import CardDiapo from './cards/CardDiapo.svelte';
   import CardNeumorph from './cards/CardNeumorph.svelte';
-  import CardStack from './cards/CardStack.svelte';
-  
-	const currentCard = writable(null);
-
-  const idify = title => `${title.toLowerCase().replace(" ", "-")}-section`; 
+  import CardStack from './cards/CardStack.svelte';  
 </script>
 
 <div id="cards-section" class="page-section">

@@ -3,7 +3,7 @@
   import { writable } from 'svelte/store';
   import Icon from 'fa-svelte'
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
-	import { cards, items, navbars } from '../data/data.js';
+	import { cards, items, navbars } from '../../../data/data.js';
   
   export let type, comp;
   const data = { cards, items, navbars};

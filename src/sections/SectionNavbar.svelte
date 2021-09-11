@@ -1,5 +1,5 @@
 <script>
-  import ComponentWrapper from "./ComponentWrapper.svelte";
+  import ComponentWrapper from "./utils/ComponentWrapper.svelte";
   import NavbarVanilla from "./navbars/NavbarVanilla.svelte";
 </script>
 

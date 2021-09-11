@@ -1,11 +1,12 @@
 <script>
 	import SideBar from "./SideBar.svelte";
 	import Hero from "./Hero.svelte";
-	import SectionSimple from "./SectionSimple.svelte";
-  import SectionCards from "./SectionCards.svelte";
-  import SectionItems from "./SectionItems.svelte";
+
 	import { sections } from '../data/data.js';
-  import SectionNavBar from "./SectionNavBar.svelte";
+	import SectionSimple from "./sections/SectionSimple.svelte";
+  import SectionCards from "./sections/SectionCards.svelte";
+  import SectionItems from "./sections/SectionItems.svelte";
+  import SectionNavBar from "./sections/SectionNavBar.svelte";
 
 	const title="Yann's UI Kit ❐";
 	const description="A repo of interesting non-bootstrap UI components ready to use.";

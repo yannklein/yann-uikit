@@ -1,5 +1,5 @@
 <script>
-  import ComponentWrapper from './ComponentWrapper.svelte';
+  import ComponentWrapper from './utils/ComponentWrapper.svelte';
   import Item3D from './items/Item3D.svelte';
   import ItemDrawer from './items/ItemDrawer.svelte';
   import ItemFlip from './items/ItemFlip.svelte';
