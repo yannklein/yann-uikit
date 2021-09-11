@@ -5,6 +5,7 @@
   import SectionCards from "./SectionCards.svelte";
   import SectionItems from "./SectionItems.svelte";
 	import { sections } from '../data/data.js';
+  import SectionNavBar from "./SectionNavBar.svelte";
 
 	const title="Yann's UI Kit ❐";
 	const description="A repo of interesting non-bootstrap UI components ready to use.";
@@ -19,7 +20,7 @@
 		{/each}
     <SectionCards/>
     <SectionItems/>
-
+    <SectionNavBar/>
 	</div>
 </div>
 

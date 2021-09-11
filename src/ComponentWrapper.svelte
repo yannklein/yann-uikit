@@ -3,10 +3,10 @@
   import { writable } from 'svelte/store';
   import Icon from 'fa-svelte'
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
-	import { cards, items } from '../data/data.js';
+	import { cards, items, navbars } from '../data/data.js';
   
   export let type, comp;
-  const data = { cards, items};
+  const data = { cards, items, navbars};
 
   const codeShown = writable(false);
   const showCode = (newStatus) => (codeShown.set(newStatus))
