@@ -1,6 +1,12 @@
 <script>
+  import Prism from 'prismjs';
   import { writable } from 'svelte/store';
-  export let code = {};
+  export let code;
+
+  const styledCode = {};
+  Object.keys(code).forEach((lang) => {
+    styledCode[lang] = Prism.highlight(code[lang], Prism.languages[lang.toLowerCase()], lang.toLowerCase());
+  });
   const currentLang = writable(Object.keys(code)[0]);
 </script>
 
@@ -11,9 +17,8 @@
 </div>
 <div class="code">
   <pre>
-    <code class="language-{$currentLang.toLowerCase().replace("html", "markup")}">
-    <!-- <code class=""> -->
-      {code[$currentLang]}
+    <code>
+      {@html styledCode[$currentLang]}
     </code>
   </pre> 
 </div> 
