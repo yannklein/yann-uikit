@@ -7,7 +7,7 @@
   export let showCode, code;
 </script>
 
-<div class="code-popup" transition:fade="{{delay: 250, duration: 300}}">
+<div class="code-popup" transition:fade="{{delay: 0, duration: 200}}">
   <div id="close" on:click={() => showCode(false)}><Icon icon={faTimes}/></div>
     <Code code={code}/>
 </div>
