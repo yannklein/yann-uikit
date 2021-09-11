@@ -7,6 +7,7 @@
 
 <div id="items-section" class="page-section">
   <h2>❐ Item Cards</h2>
+  <p>Items with some simple animations</p>
   <div class="items">
     <ComponentWrapper type="items" comp="drawer"><ItemDrawer/></ComponentWrapper>
     <ComponentWrapper type="items" comp="3d"><Item3D/></ComponentWrapper>
@@ -15,6 +16,15 @@
 </div>
 
 <style>
+  .page-section {
+    margin-bottom: 56px;
+  }
+  h2 {
+    margin-bottom: 8px;
+  }
+  p {
+    margin-bottom: 16px;
+  }
   .items {
     display: grid;
     grid-template-columns: 1fr 1fr;
