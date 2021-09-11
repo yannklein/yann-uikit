@@ -1,6 +1,9 @@
 <script>
   import { fade } from 'svelte/transition';
   import Code from '../Code.svelte';
+  import Icon from 'fa-svelte'
+  import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+  
   export let showCode, code;
 </script>
 

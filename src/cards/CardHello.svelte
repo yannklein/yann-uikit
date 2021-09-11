@@ -1,13 +1,10 @@
 <script>
-  // document.querySelector(".card-hello img")
-  //   .addEventListener("click", (event) => {
-  //     event.currentTarget.classList.toggle("tapped");
-
-  
-  //   });
 	import { cards } from '../../data/data.js';
   import CardCode from "./CardCode.svelte";
   import { writable } from 'svelte/store';
+  import Icon from 'fa-svelte'
+  import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+  
 
   const codeShown = writable(false);
   let tapped = false;
@@ -15,8 +12,8 @@
   const showCode = (newStatus) => (codeShown.set(newStatus))
 </script>
 
-<div>
-  <h3 on:click={() => showCode(true)}>Code</h3>
+<div class="card-container">
+  <h3 on:click={() => showCode(true)}><Icon icon={faCode}/></h3>
   <div class="card-hello" on:click={toggleCard}>
     <img class:tapped src="https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="">
     <div class="card-hello-info">
@@ -30,8 +27,20 @@
 {/if}
 
 <style>
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
   h3 {
-    text-align: right;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background-color: #F4F2F0;
+    border-radius: 4px;;
+    padding: 4px 8px;
+    margin: 4px;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.1);
     cursor: pointer;
   }
   /*Card Hello*/
