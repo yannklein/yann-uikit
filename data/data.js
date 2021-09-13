@@ -866,7 +866,7 @@ const navbars = {
     "HTML":
 `<div class="navbar-vanilla">
   <a class="navbar-vanilla-section" href="#">
-    <img class="navbar-vanilla-logo" src="images/youtube.png" alt="youtube">
+    <img class="navbar-vanilla-logo" src="logo.png" alt="logo">
     <h2 class="navbar-vanilla-brand" >Vanilla CSS navbar</h2>
   </a>
   <div class="navbar-vanilla-section">
@@ -875,7 +875,7 @@ const navbars = {
       <a href="#">Design gems</a>
     </div>
     <div class="navbar-vanilla-profile">
-      <img src="https://avatars2.githubusercontent.com/u/26819547?s=400&u=ae79d8825ad1127723641cbf32a9a7e2ec221e7f&v=4" alt="">
+      <img src="https://avatars2.githubusercontent.com/u/26819547" alt="">
       <ul>
         <li><a href="#">Profile</a></li>
         <li><a href="#">About us</a></li>
