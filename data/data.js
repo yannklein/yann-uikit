@@ -116,6 +116,8 @@ const cards = {
   flex-direction: column;
   /*customizable*/
   height: 300px;
+  width: 100%;
+  max-width: 500px;
   border-radius: 16px;
   background-color: white;
   box-shadow: 0 8px 16px rgb(0,0,0,0.3);
@@ -179,6 +181,8 @@ const cards = {
   flex-direction: column;
   /*customizable*/
   height: 300px;
+  width: 100%;
+  max-width: 500px;
   border-radius: 4px;
   background-color: white;
   box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
@@ -239,6 +243,7 @@ const cards = {
   flex-direction: column;
   /*customizable*/
   width: 100%;
+  max-width: 500px;
   height: 300px;
   position: relative;
 }
@@ -332,6 +337,7 @@ const cards = {
   background-size: cover;
   background-position: 50% 50%;
   width: 100%;
+  max-width: 500px;
 }
 .card-identity-content {
   /*customizable*/
@@ -394,47 +400,48 @@ const cards = {
     "CSS":
 `/*Card diapo*/
 .card-diapo {
-    /*fixed*/
-    position: relative;
-    /*customizable*/
-    height: 300px;
-    width: 100%;
+  /*fixed*/
+  position: relative;
+  /*customizable*/
+  height: 300px;
+  width: 100%;
+  max-width: 500px;
 }
 .card-diapo-img {
-    /*fixed*/
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-size: cover;
-    opacity: 0;
-    /*customizable*/
-    border-radius: 16px;
-    transition: opacity 3s ease-out;
+  /*fixed*/
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  opacity: 0;
+  /*customizable*/
+  border-radius: 16px;
+  transition: opacity 3s ease-out;
 }
 .card-diapo-img.show {
-    /*fixed*/
-    opacity: 1;
+  /*fixed*/
+  opacity: 1;
 }
 .card-diapo-text {
-    /*fixed*/
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /*customizable*/
-    color: rgb(240, 240, 240);
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  /*fixed*/
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /*customizable*/
+  color: rgb(240, 240, 240);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 .card-diapo-text h2 {
-    /*fixed*/
-    margin: 0;
-    /*customizable*/
-    font-size: 32px;
+  /*fixed*/
+  margin: 0;
+  /*customizable*/
+  font-size: 32px;
 }
 .card-diapo-text p {
-    /*fixed*/
-    margin: 0;
+  /*fixed*/
+  margin: 0;
 }`,
     "JS":
 `let imgIndex = 1;
@@ -466,6 +473,7 @@ setInterval(() => {
   justify-content: space-evenly;
   height: 300px;
   width: 100%;
+  max-width: 500px;
   border-radius: 24px;
   background: -webkit-linear-gradient(55deg, #8aa0db, #a4beff);
   background: -o-linear-gradient(55deg, #8aa0db, #a4beff);
@@ -542,6 +550,7 @@ setInterval(() => {
   /*customizable*/
   height: 300px;
   width: 100%;
+  max-width: 500px;
 }
 .card-stack-item {
   /*fixed*/
@@ -620,11 +629,14 @@ const items = {
   /*fixed*/
   display: flex;
   align-items: center;
-  min-width: 100%;
   /*customizable*/
   height: 120px;
+  width: 700px;
+  max-width: 100%;
+/*   width: fit-content; */
   border-radius: 16px;
   box-shadow: 0 0 16px rgba(0,0,0,0.3);
+  background-color: rgb(250,250,250);
 }
 
 .item-drawer h2 {
@@ -638,8 +650,7 @@ const items = {
   overflow: hidden;
   white-space: nowrap;
   /*customizable*/
-  background-color: rgb(250,250,250);
-  padding-left: 32px;
+  padding: 0 32px;
 }
 
 .item-drawer-settings {
@@ -653,7 +664,7 @@ const items = {
   height: 100%;
   /*customizable*/
   transition: 0.3s ease-out;
-  background-color: rgb(240,240,240);
+  background-color: rgb(230,230,230);
   border-radius: 0 16px 16px 0;
   font-size: 40px;
 }
@@ -708,8 +719,9 @@ const items = {
   /*fixed*/
   display: flex;
   align-items: center;
-  min-width: 100%;
   /*customizable*/
+  width: 700px;
+  max-width: 100%;
   height: 120px;
   border-radius: 16px;
   box-shadow: 0 0 16px rgba(0,0,0,0.3);
@@ -762,20 +774,27 @@ const items = {
   },
   "flip": {
     "HTML":
-`<div class="item-3d">
-<div class="item-3d-content">
-  <h2>The 3D item</h2>
-  <p>An icon that pops up out of the card.</p>
-</div>
-<div class="item-3d-icon">
-  <img src="images/youtube.png" alt="">
+`<div class="item-flip" on:click={toggleFlip} class:flipped={isFlipped}>
+<div class="item-flip-inner">
+  <div class="item-flip-front">
+    <div class="item-flip-content">
+      <h2>The flipping item</h2>
+      <p>Hover it (or click it on mobile) to display...</p>
+    </div>
+  </div>
+  <div class="item-flip-back">
+    <div class="item-flip-content">
+      <p>The back of the card!</p>
+    </div>
+  </div>
 </div>
 </div>`,
     "CSS":
 `.item-flip {
   /*customizable*/
   height: 120px;
-  width: 100%;
+  width: 700px;
+  max-width: 100%;
 }
 
 .item-flip-inner {
