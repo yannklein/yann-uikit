@@ -19,6 +19,6 @@
     margin-bottom: 8px;
   }
   p {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
 </style>

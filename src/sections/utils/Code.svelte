@@ -39,11 +39,12 @@
     height: calc(100% - 32px);
     overflow-y: auto;
     cursor: pointer;
+    margin-top: 8px;
   }
   .tab {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
   }
   .copied {
     background-color: rgb(191, 238, 191);

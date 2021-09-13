@@ -26,7 +26,7 @@
     box-shadow: 0 0 16px rgba(0,0,0,0.1);
     overflow-y: scroll;
     overflow-wrap: normal;
-    padding: 16px;
+    padding: 24px;
   }
   #close {
     position: absolute;
