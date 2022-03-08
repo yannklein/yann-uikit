@@ -173,8 +173,6 @@ const cards = {
   flex-direction: column;
   /*customizable*/
   height: 300px;
-  width: 100%;
-  max-width: 500px;
   border-radius: 4px;
   background-color: white;
   box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
@@ -191,11 +189,11 @@ const cards = {
 }
 .card-pick-info {
   /*customizable*/
-  padding: 16px;
+  padding: 24px 16px;
 }
 .card-pick-info h2 {
   /*customizable*/
-  margin: 16px 0;
+  margin: 0;
 }
 .card-pick:hover {
   /*customizable*/
