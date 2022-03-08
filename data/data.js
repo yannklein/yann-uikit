@@ -626,19 +626,16 @@ setInterval(() => {
   /*customizable*/
   color: white;
   text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
-  box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transform-style: preserve-3d;
-  transition: transform 0.3s;
+  transition: 0.3s;
 }
 
-:root {
-  /*customizable*/
-  --offset: -38px;
-  --rotation: -30deg;
+.card-vinyl:hover .card-vinyl-item {
+  box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
 }
 
 .card-vinyl:hover .card-vinyl-item:nth-child(1) {
