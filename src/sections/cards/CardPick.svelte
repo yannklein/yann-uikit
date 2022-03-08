@@ -30,11 +30,11 @@
   }
   .card-pick-info {
     /*customizable*/
-    padding: 16px;
+    padding: 24px 16px;
   }
   .card-pick-info h2 {
     /*customizable*/
-    margin: 16px 0;
+    margin: 0;
   }
   .card-pick:hover {
     /*customizable*/

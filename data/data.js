@@ -525,12 +525,12 @@ setInterval(() => {
 </div>`,
     CSS: `.card-stack {
   /*fixed*/
+  z-index: 1;
   position: relative;
   perspective: 400px;
   /*customizable*/
   height: 300px;
   width: 100%;
-  max-width: 500px;
 }
 .card-stack-item {
   /*fixed*/
@@ -551,28 +551,22 @@ setInterval(() => {
   transition: transform .3s;
 }
 
-:root {
-  /*customizable*/
-  --offset: -38px;
-  --rotation: -30deg;
-}
-
 .card-stack-item:nth-child(1) {
   /*customizable*/
-  transform: translateX(calc(32px + var(--offset))) rotateY(var(--rotation));
+  transform: translateZ(-64px) translateX(-8px) rotateY(-36deg);
 }
 .card-stack-item:nth-child(2) {
   /*customizable*/
-  transform: translateX(calc(0px + var(--offset))) rotateY(var(--rotation));
+  transform: translateZ(-64px) translateX(-32px) rotateY(-36deg);
 }
 .card-stack-item:nth-child(3) {
   /*customizable*/
-  transform: translateX(calc(-32px + var(--offset))) rotateY(var(--rotation));
+  transform: translateZ(-64px) translateX(-56px) rotateY(-36deg);
 }
 
 .card-stack-item:not(:last-child):hover {
   /*customizable*/
-  transform: rotateY(-10deg) translateX(160px);
+  transform: translateZ(-64px) rotateY(-10deg) translateX(200px);
 }
 
 .card-stack-item h2 {

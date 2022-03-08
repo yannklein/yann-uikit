@@ -1836,12 +1836,12 @@ setInterval(() => {
 </div>`,
         CSS: `.card-stack {
   /*fixed*/
+  z-index: 1;
   position: relative;
   perspective: 400px;
   /*customizable*/
   height: 300px;
   width: 100%;
-  max-width: 500px;
 }
 .card-stack-item {
   /*fixed*/
@@ -1862,28 +1862,22 @@ setInterval(() => {
   transition: transform .3s;
 }
 
-:root {
-  /*customizable*/
-  --offset: -38px;
-  --rotation: -30deg;
-}
-
 .card-stack-item:nth-child(1) {
   /*customizable*/
-  transform: translateX(calc(32px + var(--offset))) rotateY(var(--rotation));
+  transform: translateZ(-64px) translateX(-8px) rotateY(-36deg);
 }
 .card-stack-item:nth-child(2) {
   /*customizable*/
-  transform: translateX(calc(0px + var(--offset))) rotateY(var(--rotation));
+  transform: translateZ(-64px) translateX(-32px) rotateY(-36deg);
 }
 .card-stack-item:nth-child(3) {
   /*customizable*/
-  transform: translateX(calc(-32px + var(--offset))) rotateY(var(--rotation));
+  transform: translateZ(-64px) translateX(-56px) rotateY(-36deg);
 }
 
 .card-stack-item:not(:last-child):hover {
   /*customizable*/
-  transform: rotateY(-10deg) translateX(160px);
+  transform: translateZ(-64px) rotateY(-10deg) translateX(200px);
 }
 
 .card-stack-item h2 {
@@ -5412,14 +5406,14 @@ setInterval(() => {
     			p.textContent = "It goes up when you hover over it.";
     			if (!src_url_equal(img.src, img_src_value = "https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-ffx76w");
+    			attr_dev(img, "class", "svelte-bwxcp5");
     			add_location(img, file$d, 1, 2, 26);
-    			attr_dev(h2, "class", "svelte-ffx76w");
+    			attr_dev(h2, "class", "svelte-bwxcp5");
     			add_location(h2, file$d, 3, 4, 198);
     			add_location(p, file$d, 4, 4, 225);
-    			attr_dev(div0, "class", "card-pick-info svelte-ffx76w");
+    			attr_dev(div0, "class", "card-pick-info svelte-bwxcp5");
     			add_location(div0, file$d, 2, 2, 165);
-    			attr_dev(div1, "class", "card-pick svelte-ffx76w");
+    			attr_dev(div1, "class", "card-pick svelte-bwxcp5");
     			add_location(div1, file$d, 0, 0, 0);
     		},
     		l: function claim(nodes) {
