@@ -55,12 +55,6 @@
     transition: transform 0.3s;
   }
 
-  :root {
-    /*customizable*/
-    --offset: -38px;
-    --rotation: -30deg;
-  }
-
   .card-vinyl:hover .card-vinyl-item:nth-child(1) {
     /*customizable*/
     transform: rotateY(-20deg) translateX(-24px) scaleY(1.1);
