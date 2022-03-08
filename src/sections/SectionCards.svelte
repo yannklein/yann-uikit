@@ -8,6 +8,7 @@
   import CardDiapo from './cards/CardDiapo.svelte';
   import CardNeumorph from './cards/CardNeumorph.svelte';
   import CardStack from './cards/CardStack.svelte';  
+import CardVinyl from './cards/CardVinyl.svelte';
 </script>
 
 <div id="cards-section" class="page-section">
@@ -21,6 +22,7 @@
     <ComponentWrapper type="cards" comp="diapo"><CardDiapo /></ComponentWrapper>
     <ComponentWrapper type="cards" comp="neumorph"><CardNeumorph /></ComponentWrapper>
     <ComponentWrapper type="cards" comp="stack"><CardStack /></ComponentWrapper>
+    <ComponentWrapper type="cards" comp="stack"><CardVinyl /></ComponentWrapper>
   </div>
 </div>
 <style>
