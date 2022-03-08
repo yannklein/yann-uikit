@@ -1,22 +1,33 @@
 <div class="card-vinyl">
   <img
-    alt="alps"
-    class="card-vinyl-item"
-    src="https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+  alt="anteloupe canyon"
+  class="card-vinyl-item"
+  src="https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
   />
   <img
-    alt="anteloupe canyon"
-    class="card-vinyl-item"
-    src="https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+  alt="alps"
+  class="card-vinyl-item"
+  src="https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
   />
-  <img
-    alt="canal du midi"
+  <div
     class="card-vinyl-item"
-    src="https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-  />
+    style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)"
+  >
+    <h2>Vinyl Card</h2>
+    <p>
+      Largely inspired by <a id="babin" href="https://github.com/nibab-boo">Babin Bohara</a> previous work.
+    </p>
+  </div>
 </div>
 
 <style>
+  #babin {
+    background-color: black;
+    padding: 3px 6px;
+    color: white;
+    border-radius: 4px;
+  }
+
   .card-vinyl {
     /*fixed*/
     position: relative;
@@ -34,7 +45,7 @@
     background-position: center;
     /*customizable*/
     color: white;
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
     box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
     display: flex;
     flex-direction: column;
@@ -49,7 +60,6 @@
     --offset: -38px;
     --rotation: -30deg;
   }
-
 
   .card-vinyl:hover .card-vinyl-item:nth-child(1) {
     /*customizable*/

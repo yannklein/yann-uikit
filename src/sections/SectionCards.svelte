@@ -22,7 +22,7 @@ import CardVinyl from './cards/CardVinyl.svelte';
     <ComponentWrapper type="cards" comp="diapo"><CardDiapo /></ComponentWrapper>
     <ComponentWrapper type="cards" comp="neumorph"><CardNeumorph /></ComponentWrapper>
     <ComponentWrapper type="cards" comp="stack"><CardStack /></ComponentWrapper>
-    <ComponentWrapper type="cards" comp="stack"><CardVinyl /></ComponentWrapper>
+    <ComponentWrapper type="cards" comp="vinyl"><CardVinyl /></ComponentWrapper>
   </div>
 </div>
 <style>

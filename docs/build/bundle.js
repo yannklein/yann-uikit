@@ -1310,11 +1310,11 @@ var app = (function () {
     }
 
     const sections = [
-      { "title": "Browser killer",
-        "description": "Utils to kill the annoying browser default style",
-        "code": {
-          "CSS": 
-`body {
+      {
+        title: "Browser killer",
+        description: "Utils to kill the annoying browser default style",
+        code: {
+          CSS: `body {
   background-color: rgb(250,250,250);
   color: rgb(40,40,40);
 }
@@ -1327,16 +1327,15 @@ ul {
 a {
   text-decoration: none;
   display: inline-block;
-}`
-        } 
+}`,
+        },
       },
-      { "title": "Responsive container",
-        "description": "Content container simple and responsive (used on that page)",
-        "code": {
-          "HTML":
-`<div class="content-container"></div>`    ,
-          "CSS": 
-`.content-container {
+      {
+        title: "Responsive container",
+        description: "Content container simple and responsive (used on that page)",
+        code: {
+          HTML: `<div class="content-container"></div>`,
+          CSS: `.content-container {
   width: 80vw;
   margin: 0 auto;
 }
@@ -1360,23 +1359,22 @@ a {
   .content-container {
     width: 300px;
   }
-}`
-        }
+}`,
+        },
       },
-      { "title": "Page Frame",
-        "description": "Page frame with a fix header/footer and a scrollable body",
-        "code": {
-          "HTML": 
-`<div class="page-frame-content">
+      {
+        title: "Page Frame",
+        description: "Page frame with a fix header/footer and a scrollable body",
+        code: {
+          HTML: `<div class="page-frame-content">
   <div class="page-frame-header">
   </div>
   <div class="page-frame-body">
   </div>
   <div class="page-frame-footer">
   </div>
-</div>`    ,
-          "CSS": 
-`.page-frame-content {
+</div>`,
+          CSS: `.page-frame-content {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -1396,31 +1394,28 @@ a {
 .page-frame-footer {
   background-color: lightblue;
   padding: 16px;
-}`
-        }
+}`,
+        },
       },
-      { 
-        "title": "Cards",
+      {
+        title: "Cards",
       },
-      { "title": "Items",
+      { title: "Items" },
+      {
+        title: "Navbar",
       },
-      { 
-        "title": "Navbar",
-      }
     ];
 
     const cards = {
-      "hello": {
-        "HTML": 
-`<div class="card-hello">
+      hello: {
+        HTML: `<div class="card-hello">
   <img src="image.jpg" alt="">
   <div class="card-hello-info">
     <h2>The Hello Card</h2>
     <p>Some nice and subtle description</p>
   </div>
-</div>`    ,
-        "CSS": 
-`/*Card Hello*/
+</div>`,
+        CSS: `/*Card Hello*/
 .card-hello {
   /*fixed*/
   display: flex;
@@ -1468,24 +1463,21 @@ a {
 .card-hello img.tapped {
   /*customizable*/
   height: 70%;
-}`    ,
-        "JS": 
-`document.querySelector(".card-hello img")
+}`,
+        JS: `document.querySelector(".card-hello img")
   .addEventListener("click", (event) => {
     event.currentTarget.classList.toggle("tapped");
-  });`
+  });`,
       },
-      "pick": {
-        "HTML": 
-`<div class="card-pick">
+      pick: {
+        HTML: `<div class="card-pick">
   <img src="image.jpg" alt="">
   <div class="card-pick-info">
     <h2>The Pick card</h2>
     <p>It goes up when you hover over it.</p>
   </div>
-</div>`    ,
-        "CSS": 
-`/*Card pick*/
+</div>`,
+        CSS: `/*Card pick*/
 .card-pick {
   /*fixed*/
   display: flex;
@@ -1521,11 +1513,10 @@ a {
   transition: 0.2s ease-out;
   transform: translateY(-8px);
   box-shadow: 0 8px 16px rgb(0, 0, 0, 0.3);
-}`
+}`,
       },
-      "skills": {
-        "HTML":
-`<div class="card-skills">
+      skills: {
+        HTML: `<div class="card-skills">
   <div class="card-skills-img" style="background-image: url(background.jpg)">
     <h2>The skills card</h2>
   </div>
@@ -1545,9 +1536,8 @@ a {
     <i class="fa fa-chevron-down" aria-hidden="true"></i> More
     </div>
   </div>
-</div>`    ,
-      "CSS": 
-`/*Card skills*/
+</div>`,
+        CSS: `/*Card skills*/
 .card-skills {
   /*fixed*/
   display: flex;
@@ -1616,19 +1606,17 @@ a {
 .card-skills-info.show {
   /*fixed*/
   height: 100%;
-}`    ,
-        "JS": 
-`document.querySelector(".card-skills-info-more")
+}`,
+        JS: `document.querySelector(".card-skills-info-more")
   .addEventListener("click" , (event) => {
     document.querySelector(".card-skills-info").classList.toggle("show");
     event.currentTarget.querySelector("i").classList.toggle("fa-chevron-down");
     event.currentTarget.querySelector("i").classList.toggle("fa-chevron-up");
 })
-`
+`,
       },
-      "identity": {
-        "HTML": 
-`<div class="card-identity" style="background-image: url(background.jpg)">
+      identity: {
+        HTML: `<div class="card-identity" style="background-image: url(background.jpg)">
 <div class="card-identity-content">
   <div class="card-identity-avatar">
       <img src="avatar.jpg" alt="avatar" class="card-identity-img">
@@ -1636,9 +1624,8 @@ a {
   </div>
   <p>A card convenient to depict someone's identity.</p>
 </div>
-</div>`    ,
-        "CSS": 
-`.card-identity {
+</div>`,
+        CSS: `.card-identity {
   /*fixed*/
   display: flex;
   align-items: center;
@@ -1684,11 +1671,10 @@ a {
   /*fixed*/
   margin: 0;
   margin-top: 16px;
-}`
+}`,
       },
-      "diapo": {
-        "HTML":
-`<div class="card-diapo" on:click={toggleCard}>
+      diapo: {
+        HTML: `<div class="card-diapo" on:click={toggleCard}>
   <div class="card-diapo-img show" style="background-image: url(image1.jpg)">
     <div class="card-diapo-text">
       <h2>The Bad</h2>
@@ -1707,9 +1693,8 @@ a {
       <p>The diapo card</p>
     </div>
   </div>
-</div>`    ,
-        "CSS":
-`/*Card diapo*/
+</div>`,
+        CSS: `/*Card diapo*/
 .card-diapo {
   /*fixed*/
   position: relative;
@@ -1753,9 +1738,8 @@ a {
 .card-diapo-text p {
   /*fixed*/
   margin: 0;
-}`    ,
-        "JS":
-`let imgIndex = 1;
+}`,
+        JS: `let imgIndex = 1;
 const cardDiapoImgs = document.querySelectorAll(".card-diapo-img");
 setInterval(() => {
   cardDiapoImgs.forEach(cardDiapoImg => {
@@ -1763,20 +1747,18 @@ setInterval(() => {
   });
   cardDiapoImgs[imgIndex].classList.add("show");
   imgIndex = (imgIndex + 1) % cardDiapoImgs.length;
-}, 5000);`
+}, 5000);`,
       },
-      "neumorph": {
-        "HTML":
-`<div class="card-neumorph">
+      neumorph: {
+        HTML: `<div class="card-neumorph">
 <div class="card-neumorph-buttons">
   <p>⚭</p>
   <p>Y</p>
   <p>⌬</p>
 </div>
 <h2>The <a href="https://neumorphism.io">Neumorphism</a> card</h2>
-</div>`    ,
-    "CSS":
-`.card-neumorph {
+</div>`,
+        CSS: `.card-neumorph {
   /*customizable*/
   display: flex;
   flex-direction: column;
@@ -1835,11 +1817,10 @@ setInterval(() => {
   /*customizable*/g
   color: #6a80bb;
   text-shadow: 2px 2px 6px #a4beff;
-}`    ,
+}`,
       },
-      "stack": {
-        "HTML":
-`<div class="card-stack">
+      stack: {
+        HTML: `<div class="card-stack">
 <a href="https://en.wikipedia.org/wiki/Alps" class="card-stack-item" style="background-image: url(image1.jpg)">
   <h2>Third item</h2>
   <p>A third item card that looks great</p>
@@ -1852,9 +1833,8 @@ setInterval(() => {
   <h2>First item</h2>
   <p>A first item card that looks great. ( to be used for Desktop view)</p>
 </a>
-</div>`    ,
-        "CSS":
-`.card-stack {
+</div>`,
+        CSS: `.card-stack {
   /*fixed*/
   position: relative;
   perspective: 400px;
@@ -1916,14 +1896,102 @@ setInterval(() => {
 .card-stack-item p {
   /*customizable*/
   margin: 0 32px;
-}`
-      }
+}`,
+      },
+      vinyl: {
+        HTML: `<div class="card-vinyl">
+  <img
+  alt="anteloupe canyon"
+  class="card-vinyl-item"
+  src="https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+  />
+  <img
+  alt="alps"
+  class="card-vinyl-item"
+  src="https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+  />
+  <div
+    class="card-vinyl-item"
+    style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)"
+  >
+    <h2>Vinyl Card</h2>
+    <p>
+      Largely inspired by <a id="babin" href="https://github.com/nibab-boo">Babin Bohara</a> previous work.
+    </p>
+  </div>
+</div>`,
+        CSS: `#babin {
+  background-color: black;
+  padding: 3px 6px;
+  color: white;
+  border-radius: 4px;
+}
+
+.card-vinyl {
+  /*fixed*/
+  position: relative;
+  perspective: 400px;
+  /*customizable*/
+  height: 300px;
+  width: 100%;
+}
+.card-vinyl-item {
+  /*fixed*/
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  /*customizable*/
+  color: white;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+  box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.3s;
+}
+
+:root {
+  /*customizable*/
+  --offset: -38px;
+  --rotation: -30deg;
+}
+
+.card-vinyl:hover .card-vinyl-item:nth-child(1) {
+  /*customizable*/
+  transform: rotateY(-20deg) translateX(-24px) scaleY(1.1);
+}
+
+.card-vinyl:hover .card-vinyl-item:nth-child(2) {
+  /*customizable*/
+  transform: rotateY(-20deg) translateX(-56px) scaleY(1.05);
+}
+
+.card-vinyl:hover .card-vinyl-item:nth-child(3) {
+  /*customizable*/
+  transform: rotateY(-20deg) translateX(-88px);
+}
+
+.card-vinyl-item h2 {
+  /*fixed*/
+  margin: 0;
+  /*customizable*/
+  font-size: 32px;
+}
+
+.card-vinyl-item p {
+  /*customizable*/
+  margin: 0 32px;
+}`,
+      },
     };
 
     const items = {
-      "drawer": {
-        "HTML":
-`<div class="item-drawer">
+      drawer: {
+        HTML: `<div class="item-drawer">
 <div class="item-drawer-content">
   <h2>The drawer item</h2>
 </div>
@@ -1934,9 +2002,8 @@ setInterval(() => {
   <a href="#"><i class="fas fa-edit"></i></a>
   <a href="#"><i class="fas fa-trash"></i></a>
 </div>
-</div>`    ,
-        "CSS":
-`.item-drawer {
+</div>`,
+        CSS: `.item-drawer {
   /*fixed*/
   display: flex;
   align-items: center;
@@ -2007,16 +2074,14 @@ setInterval(() => {
 .item-drawer.active .item-drawer-button {
   /*fixed*/
   border-radius: 0;
-}`    ,
-      "JS":
-`document.querySelector(".item-drawer-button")
+}`,
+        JS: `document.querySelector(".item-drawer-button")
   .addEventListener("click", (event) => {
     document.querySelector(".item-drawer").classList.toggle("active");
-  });`
+  });`,
       },
       "3d": {
-        "HTML":
-`<div class="item-3d">
+        HTML: `<div class="item-3d">
 <div class="item-3d-content">
   <h2>The 3D item</h2>
   <p>An icon that pops up out of the card.</p>
@@ -2024,9 +2089,8 @@ setInterval(() => {
 <div class="item-3d-icon">
   <img src="images/youtube.png" alt="">
 </div>
-</div>`    ,
-        "CSS":
-`.item-3d {
+</div>`,
+        CSS: `.item-3d {
   /*fixed*/
   display: flex;
   align-items: center;
@@ -2081,11 +2145,10 @@ setInterval(() => {
     height: 120px;
     width: 120px;
   }
-}`
+}`,
       },
-      "flip": {
-        "HTML":
-`<div class="item-flip" on:click={toggleFlip} class:flipped={isFlipped}>
+      flip: {
+        HTML: `<div class="item-flip" on:click={toggleFlip} class:flipped={isFlipped}>
 <div class="item-flip-inner">
   <div class="item-flip-front">
     <div class="item-flip-content">
@@ -2099,9 +2162,8 @@ setInterval(() => {
     </div>
   </div>
 </div>
-</div>`    ,
-        "CSS":
-`.item-flip {
+</div>`,
+        CSS: `.item-flip {
   /*customizable*/
   height: 120px;
   width: 700px;
@@ -2163,19 +2225,17 @@ setInterval(() => {
   .item-flip:hover .item-flip-inner {
   transform: rotateX(180deg);
 }
-}`    ,
-      "JS": 
-`document.querySelector(".item-flip")
+}`,
+        JS: `document.querySelector(".item-flip")
   .addEventListener("click", (event) => {
     event.currentTarget.classList.toggle("flipped");
-  });`
-      }
+  });`,
+      },
     };
 
     const navbars = {
-      "vanilla": {
-        "HTML":
-`<div class="navbar-vanilla">
+      vanilla: {
+        HTML: `<div class="navbar-vanilla">
   <a class="navbar-vanilla-section" href="#">
     <img class="navbar-vanilla-logo" src="logo.png" alt="logo">
     <h2 class="navbar-vanilla-brand" >Vanilla CSS navbar</h2>
@@ -2194,9 +2254,8 @@ setInterval(() => {
       </ul>
     </div>
   </div>
-</div>`    ,
-        "CSS":
-`.navbar-vanilla {
+</div>`,
+        CSS: `.navbar-vanilla {
   display: flex;
   height: 96px;
   align-items: center;
@@ -2278,13 +2337,12 @@ setInterval(() => {
   .navbar-vanilla-menu {
     display: none;
   }
-}`    ,
-        "JS":
-`document.querySelector(".navbar-vanilla-profile img")
+}`,
+        JS: `document.querySelector(".navbar-vanilla-profile img")
 .addEventListener("click", (event) => {
   document.querySelector(".navbar-vanilla-profile").classList.toggle("active");
-})`
-      }
+})`,
+      },
     };
 
     var prism = createCommonjsModule(function (module) {
@@ -6120,55 +6178,81 @@ setInterval(() => {
     const file$8 = "src/sections/cards/CardVinyl.svelte";
 
     function create_fragment$8(ctx) {
-    	let div;
+    	let div1;
     	let img0;
     	let img0_src_value;
     	let t0;
     	let img1;
     	let img1_src_value;
     	let t1;
-    	let img2;
-    	let img2_src_value;
+    	let div0;
+    	let h2;
+    	let t3;
+    	let p;
+    	let t4;
+    	let a;
+    	let t6;
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			div1 = element("div");
     			img0 = element("img");
     			t0 = space();
     			img1 = element("img");
     			t1 = space();
-    			img2 = element("img");
-    			attr_dev(img0, "alt", "alps");
-    			attr_dev(img0, "class", "card-vinyl-item svelte-1rruco8");
-    			if (!src_url_equal(img0.src, img0_src_value = "https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260")) attr_dev(img0, "src", img0_src_value);
+    			div0 = element("div");
+    			h2 = element("h2");
+    			h2.textContent = "Vinyl Card";
+    			t3 = space();
+    			p = element("p");
+    			t4 = text("Largely inspired by ");
+    			a = element("a");
+    			a.textContent = "Babin Bohara";
+    			t6 = text(" previous work.");
+    			attr_dev(img0, "alt", "anteloupe canyon");
+    			attr_dev(img0, "class", "card-vinyl-item svelte-1v1mfeo");
+    			if (!src_url_equal(img0.src, img0_src_value = "https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260")) attr_dev(img0, "src", img0_src_value);
     			add_location(img0, file$8, 1, 2, 27);
-    			attr_dev(img1, "alt", "anteloupe canyon");
-    			attr_dev(img1, "class", "card-vinyl-item svelte-1rruco8");
-    			if (!src_url_equal(img1.src, img1_src_value = "https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260")) attr_dev(img1, "src", img1_src_value);
-    			add_location(img1, file$8, 6, 2, 198);
-    			attr_dev(img2, "alt", "canal du midi");
-    			attr_dev(img2, "class", "card-vinyl-item svelte-1rruco8");
-    			if (!src_url_equal(img2.src, img2_src_value = "https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")) attr_dev(img2, "src", img2_src_value);
-    			add_location(img2, file$8, 11, 2, 400);
-    			attr_dev(div, "class", "card-vinyl svelte-1rruco8");
-    			add_location(div, file$8, 0, 0, 0);
+    			attr_dev(img1, "alt", "alps");
+    			attr_dev(img1, "class", "card-vinyl-item svelte-1v1mfeo");
+    			if (!src_url_equal(img1.src, img1_src_value = "https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260")) attr_dev(img1, "src", img1_src_value);
+    			add_location(img1, file$8, 6, 2, 223);
+    			attr_dev(h2, "class", "svelte-1v1mfeo");
+    			add_location(h2, file$8, 15, 4, 582);
+    			attr_dev(a, "id", "babin");
+    			attr_dev(a, "href", "https://github.com/nibab-boo");
+    			attr_dev(a, "class", "svelte-1v1mfeo");
+    			add_location(a, file$8, 17, 26, 636);
+    			attr_dev(p, "class", "svelte-1v1mfeo");
+    			add_location(p, file$8, 16, 4, 606);
+    			attr_dev(div0, "class", "card-vinyl-item svelte-1v1mfeo");
+    			set_style(div0, "background-image", "url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)");
+    			add_location(div0, file$8, 11, 2, 388);
+    			attr_dev(div1, "class", "card-vinyl svelte-1v1mfeo");
+    			add_location(div1, file$8, 0, 0, 0);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, img0);
-    			append_dev(div, t0);
-    			append_dev(div, img1);
-    			append_dev(div, t1);
-    			append_dev(div, img2);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, img0);
+    			append_dev(div1, t0);
+    			append_dev(div1, img1);
+    			append_dev(div1, t1);
+    			append_dev(div1, div0);
+    			append_dev(div0, h2);
+    			append_dev(div0, t3);
+    			append_dev(div0, p);
+    			append_dev(p, t4);
+    			append_dev(p, a);
+    			append_dev(p, t6);
     		},
     		p: noop,
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(div1);
     		}
     	};
 
@@ -6485,7 +6569,7 @@ setInterval(() => {
     	return block;
     }
 
-    // (25:4) <ComponentWrapper type="cards" comp="stack">
+    // (25:4) <ComponentWrapper type="cards" comp="vinyl">
     function create_default_slot$2(ctx) {
     	let cardvinyl;
     	let current;
@@ -6517,7 +6601,7 @@ setInterval(() => {
     		block,
     		id: create_default_slot$2.name,
     		type: "slot",
-    		source: "(25:4) <ComponentWrapper type=\\\"cards\\\" comp=\\\"stack\\\">",
+    		source: "(25:4) <ComponentWrapper type=\\\"cards\\\" comp=\\\"vinyl\\\">",
     		ctx
     	});
 
@@ -6621,7 +6705,7 @@ setInterval(() => {
     	componentwrapper7 = new ComponentWrapper({
     			props: {
     				type: "cards",
-    				comp: "stack",
+    				comp: "vinyl",
     				$$slots: { default: [create_default_slot$2] },
     				$$scope: { ctx }
     			},

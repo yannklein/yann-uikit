@@ -1,9 +1,9 @@
 const sections = [
-  { "title": "Browser killer",
-    "description": "Utils to kill the annoying browser default style",
-    "code": {
-      "CSS": 
-`body {
+  {
+    title: "Browser killer",
+    description: "Utils to kill the annoying browser default style",
+    code: {
+      CSS: `body {
   background-color: rgb(250,250,250);
   color: rgb(40,40,40);
 }
@@ -16,16 +16,15 @@ ul {
 a {
   text-decoration: none;
   display: inline-block;
-}`
-    } 
+}`,
+    },
   },
-  { "title": "Responsive container",
-    "description": "Content container simple and responsive (used on that page)",
-    "code": {
-      "HTML":
-`<div class="content-container"></div>`,
-      "CSS": 
-`.content-container {
+  {
+    title: "Responsive container",
+    description: "Content container simple and responsive (used on that page)",
+    code: {
+      HTML: `<div class="content-container"></div>`,
+      CSS: `.content-container {
   width: 80vw;
   margin: 0 auto;
 }
@@ -49,14 +48,14 @@ a {
   .content-container {
     width: 300px;
   }
-}`
-    }
+}`,
+    },
   },
-  { "title": "Page Frame",
-    "description": "Page frame with a fix header/footer and a scrollable body",
-    "code": {
-      "HTML": 
-`<div class="page-frame-content">
+  {
+    title: "Page Frame",
+    description: "Page frame with a fix header/footer and a scrollable body",
+    code: {
+      HTML: `<div class="page-frame-content">
   <div class="page-frame-header">
   </div>
   <div class="page-frame-body">
@@ -64,8 +63,7 @@ a {
   <div class="page-frame-footer">
   </div>
 </div>`,
-      "CSS": 
-`.page-frame-content {
+      CSS: `.page-frame-content {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -85,31 +83,28 @@ a {
 .page-frame-footer {
   background-color: lightblue;
   padding: 16px;
-}`
-    }
+}`,
+    },
   },
-  { 
-    "title": "Cards",
+  {
+    title: "Cards",
   },
-  { "title": "Items",
+  { title: "Items" },
+  {
+    title: "Navbar",
   },
-  { 
-    "title": "Navbar",
-  }
 ];
 
 const cards = {
-  "hello": {
-    "HTML": 
-`<div class="card-hello">
+  hello: {
+    HTML: `<div class="card-hello">
   <img src="image.jpg" alt="">
   <div class="card-hello-info">
     <h2>The Hello Card</h2>
     <p>Some nice and subtle description</p>
   </div>
 </div>`,
-    "CSS": 
-`/*Card Hello*/
+    CSS: `/*Card Hello*/
 .card-hello {
   /*fixed*/
   display: flex;
@@ -158,23 +153,20 @@ const cards = {
   /*customizable*/
   height: 70%;
 }`,
-    "JS": 
-`document.querySelector(".card-hello img")
+    JS: `document.querySelector(".card-hello img")
   .addEventListener("click", (event) => {
     event.currentTarget.classList.toggle("tapped");
-  });`
+  });`,
   },
-  "pick": {
-    "HTML": 
-`<div class="card-pick">
+  pick: {
+    HTML: `<div class="card-pick">
   <img src="image.jpg" alt="">
   <div class="card-pick-info">
     <h2>The Pick card</h2>
     <p>It goes up when you hover over it.</p>
   </div>
 </div>`,
-    "CSS": 
-`/*Card pick*/
+    CSS: `/*Card pick*/
 .card-pick {
   /*fixed*/
   display: flex;
@@ -210,11 +202,10 @@ const cards = {
   transition: 0.2s ease-out;
   transform: translateY(-8px);
   box-shadow: 0 8px 16px rgb(0, 0, 0, 0.3);
-}`
+}`,
   },
-  "skills": {
-    "HTML":
-`<div class="card-skills">
+  skills: {
+    HTML: `<div class="card-skills">
   <div class="card-skills-img" style="background-image: url(background.jpg)">
     <h2>The skills card</h2>
   </div>
@@ -235,8 +226,7 @@ const cards = {
     </div>
   </div>
 </div>`,
-  "CSS": 
-`/*Card skills*/
+    CSS: `/*Card skills*/
 .card-skills {
   /*fixed*/
   display: flex;
@@ -306,18 +296,16 @@ const cards = {
   /*fixed*/
   height: 100%;
 }`,
-    "JS": 
-`document.querySelector(".card-skills-info-more")
+    JS: `document.querySelector(".card-skills-info-more")
   .addEventListener("click" , (event) => {
     document.querySelector(".card-skills-info").classList.toggle("show");
     event.currentTarget.querySelector("i").classList.toggle("fa-chevron-down");
     event.currentTarget.querySelector("i").classList.toggle("fa-chevron-up");
 })
-`
+`,
   },
-  "identity": {
-    "HTML": 
-`<div class="card-identity" style="background-image: url(background.jpg)">
+  identity: {
+    HTML: `<div class="card-identity" style="background-image: url(background.jpg)">
 <div class="card-identity-content">
   <div class="card-identity-avatar">
       <img src="avatar.jpg" alt="avatar" class="card-identity-img">
@@ -326,8 +314,7 @@ const cards = {
   <p>A card convenient to depict someone's identity.</p>
 </div>
 </div>`,
-    "CSS": 
-`.card-identity {
+    CSS: `.card-identity {
   /*fixed*/
   display: flex;
   align-items: center;
@@ -373,11 +360,10 @@ const cards = {
   /*fixed*/
   margin: 0;
   margin-top: 16px;
-}`
+}`,
   },
-  "diapo": {
-    "HTML":
-`<div class="card-diapo" on:click={toggleCard}>
+  diapo: {
+    HTML: `<div class="card-diapo" on:click={toggleCard}>
   <div class="card-diapo-img show" style="background-image: url(image1.jpg)">
     <div class="card-diapo-text">
       <h2>The Bad</h2>
@@ -397,8 +383,7 @@ const cards = {
     </div>
   </div>
 </div>`,
-    "CSS":
-`/*Card diapo*/
+    CSS: `/*Card diapo*/
 .card-diapo {
   /*fixed*/
   position: relative;
@@ -443,8 +428,7 @@ const cards = {
   /*fixed*/
   margin: 0;
 }`,
-    "JS":
-`let imgIndex = 1;
+    JS: `let imgIndex = 1;
 const cardDiapoImgs = document.querySelectorAll(".card-diapo-img");
 setInterval(() => {
   cardDiapoImgs.forEach(cardDiapoImg => {
@@ -452,11 +436,10 @@ setInterval(() => {
   });
   cardDiapoImgs[imgIndex].classList.add("show");
   imgIndex = (imgIndex + 1) % cardDiapoImgs.length;
-}, 5000);`
+}, 5000);`,
   },
-  "neumorph": {
-    "HTML":
-`<div class="card-neumorph">
+  neumorph: {
+    HTML: `<div class="card-neumorph">
 <div class="card-neumorph-buttons">
   <p>⚭</p>
   <p>Y</p>
@@ -464,8 +447,7 @@ setInterval(() => {
 </div>
 <h2>The <a href="https://neumorphism.io">Neumorphism</a> card</h2>
 </div>`,
-"CSS":
-`.card-neumorph {
+    CSS: `.card-neumorph {
   /*customizable*/
   display: flex;
   flex-direction: column;
@@ -526,9 +508,8 @@ setInterval(() => {
   text-shadow: 2px 2px 6px #a4beff;
 }`,
   },
-  "stack": {
-    "HTML":
-`<div class="card-stack">
+  stack: {
+    HTML: `<div class="card-stack">
 <a href="https://en.wikipedia.org/wiki/Alps" class="card-stack-item" style="background-image: url(image1.jpg)">
   <h2>Third item</h2>
   <p>A third item card that looks great</p>
@@ -542,8 +523,7 @@ setInterval(() => {
   <p>A first item card that looks great. ( to be used for Desktop view)</p>
 </a>
 </div>`,
-    "CSS":
-`.card-stack {
+    CSS: `.card-stack {
   /*fixed*/
   position: relative;
   perspective: 400px;
@@ -605,14 +585,102 @@ setInterval(() => {
 .card-stack-item p {
   /*customizable*/
   margin: 0 32px;
-}`
-  }
+}`,
+  },
+  vinyl: {
+    HTML: `<div class="card-vinyl">
+  <img
+  alt="anteloupe canyon"
+  class="card-vinyl-item"
+  src="https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+  />
+  <img
+  alt="alps"
+  class="card-vinyl-item"
+  src="https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+  />
+  <div
+    class="card-vinyl-item"
+    style="background-image: url(https://images.pexels.com/photos/33545/sunrise-phu-quoc-island-ocean.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)"
+  >
+    <h2>Vinyl Card</h2>
+    <p>
+      Largely inspired by <a id="babin" href="https://github.com/nibab-boo">Babin Bohara</a> previous work.
+    </p>
+  </div>
+</div>`,
+    CSS: `#babin {
+  background-color: black;
+  padding: 3px 6px;
+  color: white;
+  border-radius: 4px;
+}
+
+.card-vinyl {
+  /*fixed*/
+  position: relative;
+  perspective: 400px;
+  /*customizable*/
+  height: 300px;
+  width: 100%;
+}
+.card-vinyl-item {
+  /*fixed*/
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  /*customizable*/
+  color: white;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+  box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.3s;
+}
+
+:root {
+  /*customizable*/
+  --offset: -38px;
+  --rotation: -30deg;
+}
+
+.card-vinyl:hover .card-vinyl-item:nth-child(1) {
+  /*customizable*/
+  transform: rotateY(-20deg) translateX(-24px) scaleY(1.1);
+}
+
+.card-vinyl:hover .card-vinyl-item:nth-child(2) {
+  /*customizable*/
+  transform: rotateY(-20deg) translateX(-56px) scaleY(1.05);
+}
+
+.card-vinyl:hover .card-vinyl-item:nth-child(3) {
+  /*customizable*/
+  transform: rotateY(-20deg) translateX(-88px);
+}
+
+.card-vinyl-item h2 {
+  /*fixed*/
+  margin: 0;
+  /*customizable*/
+  font-size: 32px;
+}
+
+.card-vinyl-item p {
+  /*customizable*/
+  margin: 0 32px;
+}`,
+  },
 };
 
 const items = {
-  "drawer": {
-    "HTML":
-`<div class="item-drawer">
+  drawer: {
+    HTML: `<div class="item-drawer">
 <div class="item-drawer-content">
   <h2>The drawer item</h2>
 </div>
@@ -624,8 +692,7 @@ const items = {
   <a href="#"><i class="fas fa-trash"></i></a>
 </div>
 </div>`,
-    "CSS":
-`.item-drawer {
+    CSS: `.item-drawer {
   /*fixed*/
   display: flex;
   align-items: center;
@@ -697,15 +764,13 @@ const items = {
   /*fixed*/
   border-radius: 0;
 }`,
-  "JS":
-`document.querySelector(".item-drawer-button")
+    JS: `document.querySelector(".item-drawer-button")
   .addEventListener("click", (event) => {
     document.querySelector(".item-drawer").classList.toggle("active");
-  });`
+  });`,
   },
   "3d": {
-    "HTML":
-`<div class="item-3d">
+    HTML: `<div class="item-3d">
 <div class="item-3d-content">
   <h2>The 3D item</h2>
   <p>An icon that pops up out of the card.</p>
@@ -714,8 +779,7 @@ const items = {
   <img src="images/youtube.png" alt="">
 </div>
 </div>`,
-    "CSS":
-`.item-3d {
+    CSS: `.item-3d {
   /*fixed*/
   display: flex;
   align-items: center;
@@ -770,11 +834,10 @@ const items = {
     height: 120px;
     width: 120px;
   }
-}`
+}`,
   },
-  "flip": {
-    "HTML":
-`<div class="item-flip" on:click={toggleFlip} class:flipped={isFlipped}>
+  flip: {
+    HTML: `<div class="item-flip" on:click={toggleFlip} class:flipped={isFlipped}>
 <div class="item-flip-inner">
   <div class="item-flip-front">
     <div class="item-flip-content">
@@ -789,8 +852,7 @@ const items = {
   </div>
 </div>
 </div>`,
-    "CSS":
-`.item-flip {
+    CSS: `.item-flip {
   /*customizable*/
   height: 120px;
   width: 700px;
@@ -853,18 +915,16 @@ const items = {
   transform: rotateX(180deg);
 }
 }`,
-  "JS": 
-`document.querySelector(".item-flip")
+    JS: `document.querySelector(".item-flip")
   .addEventListener("click", (event) => {
     event.currentTarget.classList.toggle("flipped");
-  });`
-  }
+  });`,
+  },
 };
 
 const navbars = {
-  "vanilla": {
-    "HTML":
-`<div class="navbar-vanilla">
+  vanilla: {
+    HTML: `<div class="navbar-vanilla">
   <a class="navbar-vanilla-section" href="#">
     <img class="navbar-vanilla-logo" src="logo.png" alt="logo">
     <h2 class="navbar-vanilla-brand" >Vanilla CSS navbar</h2>
@@ -884,8 +944,7 @@ const navbars = {
     </div>
   </div>
 </div>`,
-    "CSS":
-`.navbar-vanilla {
+    CSS: `.navbar-vanilla {
   display: flex;
   height: 96px;
   align-items: center;
@@ -968,12 +1027,11 @@ const navbars = {
     display: none;
   }
 }`,
-    "JS":
-`document.querySelector(".navbar-vanilla-profile img")
+    JS: `document.querySelector(".navbar-vanilla-profile img")
 .addEventListener("click", (event) => {
   document.querySelector(".navbar-vanilla-profile").classList.toggle("active");
-})`
-  }
-}
+})`,
+  },
+};
 
-export { sections, cards, items, navbars};
+export { sections, cards, items, navbars };
