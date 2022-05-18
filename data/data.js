@@ -53,7 +53,8 @@ a {
   },
   {
     title: "Page Frame",
-    description: "Page frame with a fix header/footer and a scrollable body (<a href='header-body-footer.html'>example</a>)",
+    description: "Page frame with a fix header/footer and a scrollable body",
+    link: {url: "header-body-footer.html", name: "example"},
     code: {
       HTML: `<div class="page-frame-content">
   <div class="page-frame-header">
