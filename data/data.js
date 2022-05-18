@@ -116,7 +116,7 @@ const cards = {
   max-width: 500px;
   border-radius: 16px;
   background-color: white;
-  box-shadow: 0 8px 16px rgb(0,0,0,0.3);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 }
 
 .card-hello img {
@@ -176,7 +176,7 @@ const cards = {
   height: 300px;
   border-radius: 4px;
   background-color: white;
-  box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0px 16px rgba(0, 0, 0, 0.3);
 }
 .card-pick img {
   /*fixed*/
@@ -200,7 +200,7 @@ const cards = {
   /*customizable*/
   transition: 0.2s ease-out;
   transform: translateY(-8px);
-  box-shadow: 0 8px 16px rgb(0, 0, 0, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }`,
   },
   skills: {
@@ -247,13 +247,13 @@ const cards = {
   /*customizable*/
   background-position: 50% 50%;
   border-radius: 4px 4px 0 0;
-  box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0px 16px rgba(0, 0, 0, 0.3);
 }
 .card-skills-img h2 {
   /*customizable*/
   color: white;
   margin: 0;
-  text-shadow: 0 0 8px rgb(0, 0, 0, 0.3);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 .card-skills-info {
   /*fixed*/
@@ -267,7 +267,7 @@ const cards = {
   background-color: white;
   position: absolute;
   top: 100px;
-  box-shadow: 0 0px 16px rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0px 16px rgba(0, 0, 0, 0.3);
   transition: height 0.3s ease-out;
 }
 .card-skills-info-content {
@@ -541,7 +541,7 @@ setInterval(() => {
   /*customizable*/
   color: white;
   text-shadow: 0 0 8px rgba(0,0,0,0.3);
-  box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
+  box-shadow: 16px 0 16px -7px rgba(0,0,0,0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -626,7 +626,7 @@ setInterval(() => {
   background-position: center;
   /*customizable*/
   color: white;
-  text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -636,7 +636,7 @@ setInterval(() => {
 }
 
 .card-vinyl:hover .card-vinyl-item {
-  box-shadow: 16px 0 16px -7px rgb(0 0 0 / 70%);
+  box-shadow: 16px 0 16px -7px rgba(0,0,0,0.7);
 }
 
 .card-vinyl:hover .card-vinyl-item:nth-child(1) {
