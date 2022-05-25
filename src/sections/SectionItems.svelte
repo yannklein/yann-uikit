@@ -4,6 +4,8 @@
   import ItemDrawer from './items/ItemDrawer.svelte';
   import ItemFlip from './items/ItemFlip.svelte';
   import { items } from '../stores.js';
+  const components = { Item3d, ItemDrawer, ItemFlip };
+
 
   const componizeString = name => `Item${name[0].toUpperCase()}${name.substring(1)}`
 </script>
@@ -13,7 +15,7 @@
   <p>Items with some simple animations</p>
   <div class="items">
     {#each Object.keys($items) as itemName}
-    <ComponentWrapper type="items" comp={itemName}><svelte:component this="{ eval(componizeString(itemName)) }" /></ComponentWrapper>
+    <ComponentWrapper type="items" comp={itemName}><svelte:component this={ components[componizeString(itemName)] } /></ComponentWrapper>
     {/each}
   </div>
 </div>

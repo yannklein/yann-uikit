@@ -9,6 +9,7 @@
   import CardStack from './cards/CardStack.svelte';  
   import CardVinyl from './cards/CardVinyl.svelte';
   import { cards } from '../stores.js';
+  const components = { CardHello, CardIdentity, CardPick, CardSkills, CardDiapo, CardNeumorph, CardStack, CardVinyl };
 
   const componizeString = name => `Card${name[0].toUpperCase()}${name.substring(1)}`
 </script>
@@ -18,7 +19,7 @@
   <p>Cards to be used in grids</p>
   <div class="cards">
     {#each Object.keys($cards) as cardName}
-      <ComponentWrapper type="cards" comp={cardName}><svelte:component this="{ eval(componizeString(cardName)) }" /></ComponentWrapper>
+      <ComponentWrapper type="cards" comp={cardName}><svelte:component this={components[componizeString(cardName)] } /></ComponentWrapper>
     {/each}
   </div>
 </div>
