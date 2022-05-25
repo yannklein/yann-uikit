@@ -4471,7 +4471,7 @@ var app = (function () {
     			t2 = text(")");
     			attr_dev(a, "href", a_href_value = /*link*/ ctx[3].url);
     			attr_dev(a, "class", "svelte-1lru5uv");
-    			add_location(a, file$i, 12, 7, 333);
+    			add_location(a, file$i, 12, 7, 338);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -4540,13 +4540,13 @@ var app = (function () {
     			t5 = space();
     			create_component(code_1.$$.fragment);
     			attr_dev(h2, "class", "svelte-1lru5uv");
-    			add_location(h2, file$i, 8, 2, 233);
-    			add_location(span, file$i, 10, 4, 284);
+    			add_location(h2, file$i, 8, 2, 238);
+    			add_location(span, file$i, 10, 4, 289);
     			attr_dev(div0, "class", "description svelte-1lru5uv");
-    			add_location(div0, file$i, 9, 2, 254);
+    			add_location(div0, file$i, 9, 2, 259);
     			attr_dev(div1, "id", div1_id_value = /*idify*/ ctx[4](/*title*/ ctx[0]));
     			attr_dev(div1, "class", "page-section svelte-1lru5uv");
-    			add_location(div1, file$i, 7, 0, 186);
+    			add_location(div1, file$i, 7, 0, 191);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4621,7 +4621,7 @@ var app = (function () {
     function instance$i($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('SectionSimple', slots, []);
-    	let { title, description, code, link } = $$props;
+    	let { title, description, code, link = "" } = $$props;
     	const idify = title => `${title.toLowerCase().replace(" ", "-")}-section`;
     	const writable_props = ['title', 'description', 'code', 'link'];
 
@@ -4690,10 +4690,6 @@ var app = (function () {
 
     		if (/*code*/ ctx[2] === undefined && !('code' in props)) {
     			console.warn("<SectionSimple> was created without expected prop 'code'");
-    		}
-
-    		if (/*link*/ ctx[3] === undefined && !('link' in props)) {
-    			console.warn("<SectionSimple> was created without expected prop 'link'");
     		}
     	}
 

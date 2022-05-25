@@ -1,7 +1,7 @@
 <script>
   import Code from './utils/Code.svelte';
 
-  export let title, description, code, link;
+  export let title, description, code, link = "";
   const idify = title => `${title.toLowerCase().replace(" ", "-")}-section`; 
 </script>
 
