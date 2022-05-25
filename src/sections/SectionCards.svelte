@@ -10,7 +10,7 @@
   import CardVinyl from './cards/CardVinyl.svelte';
   import { cards } from '../stores.js';
 
-  const componizeString = cardName => `Card${cardName[0].toUpperCase()}${cardName.substring(1)}`
+  const componizeString = name => `Card${name[0].toUpperCase()}${name.substring(1)}`
 </script>
 
 <div id="cards-section" class="page-section">

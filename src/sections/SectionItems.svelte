@@ -1,17 +1,20 @@
 <script>
   import ComponentWrapper from './utils/ComponentWrapper.svelte';
-  import Item3D from './items/Item3D.svelte';
+  import Item3d from './items/Item3d.svelte';
   import ItemDrawer from './items/ItemDrawer.svelte';
   import ItemFlip from './items/ItemFlip.svelte';
+  import { items } from '../stores.js';
+
+  const componizeString = name => `Item${name[0].toUpperCase()}${name.substring(1)}`
 </script>
 
 <div id="items-section" class="page-section">
   <h2>❐ Item Cards</h2>
   <p>Items with some simple animations</p>
   <div class="items">
-    <ComponentWrapper type="items" comp="drawer"><ItemDrawer/></ComponentWrapper>
-    <ComponentWrapper type="items" comp="3d"><Item3D/></ComponentWrapper>
-    <ComponentWrapper type="items" comp="flip"><ItemFlip/></ComponentWrapper>
+    {#each Object.keys($items) as itemName}
+    <ComponentWrapper type="items" comp={itemName}><svelte:component this="{ eval(componizeString(itemName)) }" /></ComponentWrapper>
+    {/each}
   </div>
 </div>
 
