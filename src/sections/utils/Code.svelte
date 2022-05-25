@@ -27,13 +27,10 @@
   <div class="copied" class:active={isCopied}>Copied!</div>
 </div>
 <div class="code" on:click={copyCode}>
-  <pre>
-    <code>
-      {@html styledCode[$currentLang]}
-    </code>
-  </pre> 
+  <pre><code>
+  {@html styledCode[$currentLang]}
+  </code></pre> 
 </div> 
-
 <style>
   .code {
     height: calc(100% - 32px);
