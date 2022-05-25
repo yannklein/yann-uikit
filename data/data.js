@@ -11,7 +11,7 @@ export const data = {
     body, h1, h2, h3, p {
     margin: 0;
   }
-  ul {
+  ul {s
     padding: 0;
   }
   a {

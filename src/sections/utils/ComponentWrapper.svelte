@@ -6,7 +6,7 @@
 	import { cards, items, navbars } from '../../stores';
   
   export let type, comp;
-  const data = { cards, items, navbars};
+  const data = { cards: $cards, items: $items, navbars: $navbars};
 
   const codeShown = writable(false);
   const showCode = (newStatus) => (codeShown.set(newStatus))

@@ -6,7 +6,6 @@
   import { items } from '../stores.js';
   const components = { Item3d, ItemDrawer, ItemFlip };
 
-
   const componizeString = name => `Item${name[0].toUpperCase()}${name.substring(1)}`
 </script>
 
