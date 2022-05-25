@@ -1,8 +1,8 @@
 <script>
+	import { sections } from './stores.js';
+
 	import SideBar from "./SideBar.svelte";
 	import Hero from "./Hero.svelte";
-
-	import { sections } from '../data/data.js';
 	import SectionSimple from "./sections/SectionSimple.svelte";
   import SectionCards from "./sections/SectionCards.svelte";
   import SectionItems from "./sections/SectionItems.svelte";
@@ -14,9 +14,9 @@
 
 <Hero {title} {description}/>
 <div class="page-container">
-	<SideBar sections={sections.map(section => section.title)}/>
+	<SideBar sections={$sections.map(section => section.title)}/>
 	<div class="content-container">
-		{#each sections.filter(sec => sec.code) as section}
+		{#each $sections.filter(sec => sec.code) as section}
 			<SectionSimple {...section}/>
 		{/each}
     <SectionCards/>
