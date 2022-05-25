@@ -17,7 +17,6 @@
 	<SideBar sections={$sections.map(section => section.title)}/>
 	<div class="content-container">
 		{#each $sections.filter(sec => sec.code) as section}
-    {section.code}
 			<SectionSimple {...section}/>
 		{/each}
     <SectionCards/>
