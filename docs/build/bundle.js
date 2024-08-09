@@ -1,5 +1,5 @@
 
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 var app = (function () {
     'use strict';
 
@@ -148,6 +148,12 @@ var app = (function () {
             }
         };
     }
+
+    const globals = (typeof window !== 'undefined'
+        ? window
+        : typeof globalThis !== 'undefined'
+            ? globalThis
+            : global);
     function append(target, node) {
         target.appendChild(node);
     }
@@ -167,12 +173,15 @@ var app = (function () {
     }
     function append_stylesheet(node, style) {
         append(node.head || node, style);
+        return style.sheet;
     }
     function insert(target, node, anchor) {
         target.insertBefore(node, anchor || null);
     }
     function detach(node) {
-        node.parentNode.removeChild(node);
+        if (node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
     }
     function destroy_each(iterations, detaching) {
         for (let i = 0; i < iterations.length; i += 1) {
@@ -209,7 +218,7 @@ var app = (function () {
         return Array.from(element.childNodes);
     }
     function set_style(node, key, value, important) {
-        if (value === null) {
+        if (value == null) {
             node.style.removeProperty(key);
         }
         else {
@@ -237,16 +246,17 @@ var app = (function () {
             if (!this.e) {
                 if (this.is_svg)
                     this.e = svg_element(target.nodeName);
+                /** #7364  target for <template> may be provided as #document-fragment(11) */
                 else
-                    this.e = element(target.nodeName);
-                this.t = target;
+                    this.e = element((target.nodeType === 11 ? 'TEMPLATE' : target.nodeName));
+                this.t = target.tagName !== 'TEMPLATE' ? target : target.content;
                 this.c(html);
             }
             this.i(anchor);
         }
         h(html) {
             this.e.innerHTML = html;
-            this.n = Array.from(this.e.childNodes);
+            this.n = Array.from(this.e.nodeName === 'TEMPLATE' ? this.e.content.childNodes : this.e.childNodes);
         }
         i(anchor) {
             for (let i = 0; i < this.n.length; i += 1) {
@@ -319,11 +329,10 @@ var app = (function () {
             if (active)
                 return;
             managed_styles.forEach(info => {
-                const { stylesheet } = info;
-                let i = stylesheet.cssRules.length;
-                while (i--)
-                    stylesheet.deleteRule(i);
-                info.rules = {};
+                const { ownerNode } = info.stylesheet;
+                // there is no ownerNode if it runs on jsdom.
+                if (ownerNode)
+                    detach(ownerNode);
             });
             managed_styles.clear();
         });
@@ -338,15 +347,24 @@ var app = (function () {
             throw new Error('Function called outside component initialization');
         return current_component;
     }
+    /**
+     * The `onMount` function schedules a callback to run as soon as the component has been mounted to the DOM.
+     * It must be called during the component's initialisation (but doesn't need to live *inside* the component;
+     * it can be called from an external module).
+     *
+     * `onMount` does not run inside a [server-side component](/docs#run-time-server-side-component-api).
+     *
+     * https://svelte.dev/docs#run-time-svelte-onmount
+     */
     function onMount(fn) {
         get_current_component().$$.on_mount.push(fn);
     }
 
     const dirty_components = [];
     const binding_callbacks = [];
-    const render_callbacks = [];
+    let render_callbacks = [];
     const flush_callbacks = [];
-    const resolved_promise = Promise.resolve();
+    const resolved_promise = /* @__PURE__ */ Promise.resolve();
     let update_scheduled = false;
     function schedule_update() {
         if (!update_scheduled) {
@@ -378,15 +396,29 @@ var app = (function () {
     const seen_callbacks = new Set();
     let flushidx = 0; // Do *not* move this inside the flush() function
     function flush() {
+        // Do not reenter flush while dirty components are updated, as this can
+        // result in an infinite loop. Instead, let the inner flush handle it.
+        // Reentrancy is ok afterwards for bindings etc.
+        if (flushidx !== 0) {
+            return;
+        }
         const saved_component = current_component;
         do {
             // first, call beforeUpdate functions
             // and update components
-            while (flushidx < dirty_components.length) {
-                const component = dirty_components[flushidx];
-                flushidx++;
-                set_current_component(component);
-                update(component.$$);
+            try {
+                while (flushidx < dirty_components.length) {
+                    const component = dirty_components[flushidx];
+                    flushidx++;
+                    set_current_component(component);
+                    update(component.$$);
+                }
+            }
+            catch (e) {
+                // reset dirty state to not end up in a deadlocked state and then rethrow
+                dirty_components.length = 0;
+                flushidx = 0;
+                throw e;
             }
             set_current_component(null);
             dirty_components.length = 0;
@@ -422,6 +454,16 @@ var app = (function () {
             $$.fragment && $$.fragment.p($$.ctx, dirty);
             $$.after_update.forEach(add_render_callback);
         }
+    }
+    /**
+     * Useful for example to execute remaining `afterUpdate` callbacks before executing `destroy`.
+     */
+    function flush_render_callbacks(fns) {
+        const filtered = [];
+        const targets = [];
+        render_callbacks.forEach((c) => fns.indexOf(c) === -1 ? filtered.push(c) : targets.push(c));
+        targets.forEach((c) => c());
+        render_callbacks = filtered;
     }
 
     let promise;
@@ -473,10 +515,14 @@ var app = (function () {
             });
             block.o(local);
         }
+        else if (callback) {
+            callback();
+        }
     }
     const null_transition = { duration: 0 };
     function create_bidirectional_transition(node, fn, params, intro) {
-        let config = fn(node, params);
+        const options = { direction: 'both' };
+        let config = fn(node, params, options);
         let t = intro ? 0 : 1;
         let running_program = null;
         let pending_program = null;
@@ -566,7 +612,7 @@ var app = (function () {
                 if (is_function(config)) {
                     wait().then(() => {
                         // @ts-ignore
-                        config = config();
+                        config = config(options);
                         go(b);
                     });
                 }
@@ -580,12 +626,6 @@ var app = (function () {
             }
         };
     }
-
-    const globals = (typeof window !== 'undefined'
-        ? window
-        : typeof globalThis !== 'undefined'
-            ? globalThis
-            : global);
 
     function get_spread_update(levels, updates) {
         const update = {};
@@ -627,14 +667,17 @@ var app = (function () {
         block && block.c();
     }
     function mount_component(component, target, anchor, customElement) {
-        const { fragment, on_mount, on_destroy, after_update } = component.$$;
+        const { fragment, after_update } = component.$$;
         fragment && fragment.m(target, anchor);
         if (!customElement) {
             // onMount happens before the initial afterUpdate
             add_render_callback(() => {
-                const new_on_destroy = on_mount.map(run).filter(is_function);
-                if (on_destroy) {
-                    on_destroy.push(...new_on_destroy);
+                const new_on_destroy = component.$$.on_mount.map(run).filter(is_function);
+                // if the component was destroyed immediately
+                // it will update the `$$.on_destroy` reference to `null`.
+                // the destructured on_destroy may still reference to the old array
+                if (component.$$.on_destroy) {
+                    component.$$.on_destroy.push(...new_on_destroy);
                 }
                 else {
                     // Edge case - component was destroyed immediately,
@@ -649,6 +692,7 @@ var app = (function () {
     function destroy_component(component, detaching) {
         const $$ = component.$$;
         if ($$.fragment !== null) {
+            flush_render_callbacks($$.after_update);
             run_all($$.on_destroy);
             $$.fragment && $$.fragment.d(detaching);
             // TODO null out other refs, including component.$$ (but need to
@@ -670,7 +714,7 @@ var app = (function () {
         set_current_component(component);
         const $$ = component.$$ = {
             fragment: null,
-            ctx: null,
+            ctx: [],
             // state
             props,
             update: noop,
@@ -735,6 +779,9 @@ var app = (function () {
             this.$destroy = noop;
         }
         $on(type, callback) {
+            if (!is_function(callback)) {
+                return noop;
+            }
             const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
             callbacks.push(callback);
             return () => {
@@ -753,7 +800,7 @@ var app = (function () {
     }
 
     function dispatch_dev(type, detail) {
-        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.48.0' }, detail), { bubbles: true }));
+        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.59.2' }, detail), { bubbles: true }));
     }
     function append_dev(target, node) {
         dispatch_dev('SvelteDOMInsert', { target, node });
@@ -767,12 +814,14 @@ var app = (function () {
         dispatch_dev('SvelteDOMRemove', { node });
         detach(node);
     }
-    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation) {
+    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation, has_stop_immediate_propagation) {
         const modifiers = options === true ? ['capture'] : options ? Array.from(Object.keys(options)) : [];
         if (has_prevent_default)
             modifiers.push('preventDefault');
         if (has_stop_propagation)
             modifiers.push('stopPropagation');
+        if (has_stop_immediate_propagation)
+            modifiers.push('stopImmediatePropagation');
         dispatch_dev('SvelteDOMAddEventListener', { node, event, handler, modifiers });
         const dispose = listen(node, event, handler, options);
         return () => {
@@ -789,7 +838,7 @@ var app = (function () {
     }
     function set_data_dev(text, data) {
         data = '' + data;
-        if (text.wholeText === data)
+        if (text.data === data)
             return;
         dispatch_dev('SvelteDOMSetData', { node: text, data });
         text.data = data;
@@ -807,6 +856,25 @@ var app = (function () {
         for (const slot_key of Object.keys(slot)) {
             if (!~keys.indexOf(slot_key)) {
                 console.warn(`<${name}> received an unexpected slot "${slot_key}".`);
+            }
+        }
+    }
+    function construct_svelte_component_dev(component, props) {
+        const error_message = 'this={...} of <svelte:component> should specify a Svelte component.';
+        try {
+            const instance = new component(props);
+            if (!instance.$$ || !instance.$set || !instance.$on || !instance.$destroy) {
+                throw new Error(error_message);
+            }
+            return instance;
+        }
+        catch (err) {
+            const { message } = err;
+            if (typeof message === 'string' && message.indexOf('is not a constructor') !== -1) {
+                throw new Error(error_message);
+            }
+            else {
+                throw err;
             }
         }
     }
@@ -834,7 +902,7 @@ var app = (function () {
     /**
      * Create a `Writable` store that allows both updating and reading by subscription.
      * @param {*=}value initial value
-     * @param {StartStopNotifier=}start start and stop notifications for subscriptions
+     * @param {StartStopNotifier=} start
      */
     function writable(value, start = noop) {
         let stop;
@@ -869,7 +937,7 @@ var app = (function () {
             run(value);
             return () => {
                 subscribers.delete(subscriber);
-                if (subscribers.size === 0) {
+                if (subscribers.size === 0 && stop) {
                     stop();
                     stop = null;
                 }
@@ -2028,7 +2096,7 @@ var app = (function () {
     const items = writable(data.items);
     const navbars = writable(data.navbars);
 
-    /* node_modules/fa-svelte/src/Icon.svelte generated by Svelte v3.48.0 */
+    /* node_modules/fa-svelte/src/Icon.svelte generated by Svelte v3.59.2 */
 
     const file$n = "node_modules/fa-svelte/src/Icon.svelte";
 
@@ -2097,6 +2165,12 @@ var app = (function () {
     	let classes = "";
     	let viewBox = "";
 
+    	$$self.$$.on_mount.push(function () {
+    		if (icon === undefined && !('icon' in $$props || $$self.$$.bound[$$self.$$.props['icon']])) {
+    			console.warn("<Icon> was created without expected prop 'icon'");
+    		}
+    	});
+
     	$$self.$$set = $$new_props => {
     		$$invalidate(4, $$props = assign(assign({}, $$props), exclude_internal_props($$new_props)));
     		if ('icon' in $$new_props) $$invalidate(3, icon = $$new_props.icon);
@@ -2143,13 +2217,6 @@ var app = (function () {
     			options,
     			id: create_fragment$n.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*icon*/ ctx[3] === undefined && !('icon' in props)) {
-    			console.warn("<Icon> was created without expected prop 'icon'");
-    		}
     	}
 
     	get icon() {
@@ -2199,7 +2266,7 @@ var app = (function () {
     exports.svgPathData = svgPathData;
     });
 
-    /* src/SideBar.svelte generated by Svelte v3.48.0 */
+    /* src/SideBar.svelte generated by Svelte v3.59.2 */
     const file$m = "src/SideBar.svelte";
 
     function get_each_context$4(ctx, list, i) {
@@ -2302,13 +2369,15 @@ var app = (function () {
     			insert_dev(target, div1, anchor);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div1, null);
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div1, null);
+    				}
     			}
 
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(div0, "click", /*toggleMenu*/ ctx[2], false, false, false);
+    				dispose = listen_dev(div0, "click", /*toggleMenu*/ ctx[2], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -2337,7 +2406,7 @@ var app = (function () {
     				each_blocks.length = each_value.length;
     			}
 
-    			if (dirty & /*isShown*/ 2) {
+    			if (!current || dirty & /*isShown*/ 2) {
     				toggle_class(div1, "show", /*isShown*/ ctx[1]);
     			}
     		},
@@ -2379,6 +2448,13 @@ var app = (function () {
     	let isShown = false;
     	const toggleMenu = () => $$invalidate(1, isShown = !isShown);
     	const hrefify = title => `#${title.toLowerCase().replace(" ", "-")}-section`;
+
+    	$$self.$$.on_mount.push(function () {
+    		if (sections === undefined && !('sections' in $$props || $$self.$$.bound[$$self.$$.props['sections']])) {
+    			console.warn("<SideBar> was created without expected prop 'sections'");
+    		}
+    	});
+
     	const writable_props = ['sections'];
 
     	Object.keys($$props).forEach(key => {
@@ -2421,13 +2497,6 @@ var app = (function () {
     			options,
     			id: create_fragment$m.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*sections*/ ctx[0] === undefined && !('sections' in props)) {
-    			console.warn("<SideBar> was created without expected prop 'sections'");
-    		}
     	}
 
     	get sections() {
@@ -2439,7 +2508,7 @@ var app = (function () {
     	}
     }
 
-    /* src/Hero.svelte generated by Svelte v3.48.0 */
+    /* src/Hero.svelte generated by Svelte v3.59.2 */
 
     const file$l = "src/Hero.svelte";
 
@@ -2507,6 +2576,17 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Hero', slots, []);
     	let { title, description } = $$props;
+
+    	$$self.$$.on_mount.push(function () {
+    		if (title === undefined && !('title' in $$props || $$self.$$.bound[$$self.$$.props['title']])) {
+    			console.warn("<Hero> was created without expected prop 'title'");
+    		}
+
+    		if (description === undefined && !('description' in $$props || $$self.$$.bound[$$self.$$.props['description']])) {
+    			console.warn("<Hero> was created without expected prop 'description'");
+    		}
+    	});
+
     	const writable_props = ['title', 'description'];
 
     	Object.keys($$props).forEach(key => {
@@ -2543,17 +2623,6 @@ var app = (function () {
     			options,
     			id: create_fragment$l.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*title*/ ctx[0] === undefined && !('title' in props)) {
-    			console.warn("<Hero> was created without expected prop 'title'");
-    		}
-
-    		if (/*description*/ ctx[1] === undefined && !('description' in props)) {
-    			console.warn("<Hero> was created without expected prop 'description'");
-    		}
     	}
 
     	get title() {
@@ -2599,7 +2668,7 @@ var app = (function () {
     var Prism = (function (_self) {
 
     	// Private helper vars
-    	var lang = /\blang(?:uage)?-([\w-]+)\b/i;
+    	var lang = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i;
     	var uniqueId = 0;
 
     	// The grammar object for plaintext
@@ -2629,6 +2698,27 @@ var app = (function () {
     		 * @public
     		 */
     		manual: _self.Prism && _self.Prism.manual,
+    		/**
+    		 * By default, if Prism is in a web worker, it assumes that it is in a worker it created itself, so it uses
+    		 * `addEventListener` to communicate with its parent instance. However, if you're using Prism manually in your
+    		 * own worker, you don't want it to do this.
+    		 *
+    		 * By setting this value to `true`, Prism will not add its own listeners to the worker.
+    		 *
+    		 * You obviously have to change this value before Prism executes. To do this, you can add an
+    		 * empty Prism object into the global scope before loading the Prism script like this:
+    		 *
+    		 * ```js
+    		 * window.Prism = window.Prism || {};
+    		 * Prism.disableWorkerMessageHandler = true;
+    		 * // Load Prism's script
+    		 * ```
+    		 *
+    		 * @default false
+    		 * @type {boolean}
+    		 * @memberof Prism
+    		 * @public
+    		 */
     		disableWorkerMessageHandler: _self.Prism && _self.Prism.disableWorkerMessageHandler,
 
     		/**
@@ -2743,13 +2833,31 @@ var app = (function () {
     			 * @returns {string}
     			 */
     			getLanguage: function (element) {
-    				while (element && !lang.test(element.className)) {
+    				while (element) {
+    					var m = lang.exec(element.className);
+    					if (m) {
+    						return m[1].toLowerCase();
+    					}
     					element = element.parentElement;
     				}
-    				if (element) {
-    					return (element.className.match(lang) || [, 'none'])[1].toLowerCase();
-    				}
     				return 'none';
+    			},
+
+    			/**
+    			 * Sets the Prism `language-xxxx` class of the given element.
+    			 *
+    			 * @param {Element} element
+    			 * @param {string} language
+    			 * @returns {void}
+    			 */
+    			setLanguage: function (element, language) {
+    				// remove all `language-xxxx` classes
+    				// (this might leave behind a leading space)
+    				element.className = element.className.replace(RegExp(lang, 'gi'), '');
+
+    				// add the new `language-xxxx` class
+    				// (using `classList` will automatically clean up spaces for us)
+    				element.classList.add('language-' + language);
     			},
 
     			/**
@@ -2781,7 +2889,7 @@ var app = (function () {
     					//    at _.util.currentScript (http://localhost/components/prism-core.js:119:5)
     					//    at Global code (http://localhost/components/prism-core.js:606:1)
 
-    					var src = (/at [^(\r\n]*\((.*):.+:.+\)$/i.exec(err.stack) || [])[1];
+    					var src = (/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(err.stack) || [])[1];
     					if (src) {
     						var scripts = document.getElementsByTagName('script');
     						for (var i in scripts) {
@@ -3106,12 +3214,12 @@ var app = (function () {
     			var grammar = _.languages[language];
 
     			// Set language on the element, if not present
-    			element.className = element.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
+    			_.util.setLanguage(element, language);
 
     			// Set language on the parent, for styling
     			var parent = element.parentElement;
     			if (parent && parent.nodeName.toLowerCase() === 'pre') {
-    				parent.className = parent.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
+    				_.util.setLanguage(parent, language);
     			}
 
     			var code = element.textContent;
@@ -3200,6 +3308,9 @@ var app = (function () {
     				language: language
     			};
     			_.hooks.run('before-tokenize', env);
+    			if (!env.grammar) {
+    				throw new Error('The language "' + env.language + '" has no grammar.');
+    			}
     			env.tokens = _.tokenize(env.code, env.grammar);
     			_.hooks.run('after-tokenize', env);
     			return Token.stringify(_.util.encode(env.tokens), env.language);
@@ -3506,7 +3617,7 @@ var app = (function () {
 
     					if (greedy) {
     						match = matchPattern(pattern, pos, text, lookbehind);
-    						if (!match) {
+    						if (!match || match.index >= text.length) {
     							break;
     						}
 
@@ -3806,8 +3917,14 @@ var app = (function () {
     ********************************************** */
 
     Prism.languages.markup = {
-    	'comment': /<!--[\s\S]*?-->/,
-    	'prolog': /<\?[\s\S]+?\?>/,
+    	'comment': {
+    		pattern: /<!--(?:(?!<!--)[\s\S])*?-->/,
+    		greedy: true
+    	},
+    	'prolog': {
+    		pattern: /<\?[\s\S]+?\?>/,
+    		greedy: true
+    	},
     	'doctype': {
     		// https://www.w3.org/TR/xml/#NT-doctypedecl
     		pattern: /<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,
@@ -3824,11 +3941,14 @@ var app = (function () {
     				greedy: true
     			},
     			'punctuation': /^<!|>$|[[\]]/,
-    			'doctype-tag': /^DOCTYPE/,
+    			'doctype-tag': /^DOCTYPE/i,
     			'name': /[^\s<>'"]+/
     		}
     	},
-    	'cdata': /<!\[CDATA\[[\s\S]*?\]\]>/i,
+    	'cdata': {
+    		pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
+    		greedy: true
+    	},
     	'tag': {
     		pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,
     		greedy: true,
@@ -3849,7 +3969,10 @@ var app = (function () {
     							pattern: /^=/,
     							alias: 'attr-equals'
     						},
-    						/"|'/
+    						{
+    							pattern: /^(\s*)["']|["']$/,
+    							lookbehind: true
+    						}
     					]
     				}
     			},
@@ -3992,7 +4115,7 @@ var app = (function () {
     	Prism.languages.css = {
     		'comment': /\/\*[\s\S]*?\*\//,
     		'atrule': {
-    			pattern: /@[\w-](?:[^;{\s]|\s+(?![\s{]))*(?:;|(?=\s*\{))/,
+    			pattern: RegExp('@[\\w-](?:' + /[^;{\s"']|\s+(?!\s)/.source + '|' + string.source + ')*?' + /(?:;|(?=\s*\{))/.source),
     			inside: {
     				'rule': /^@[\w-]+/,
     				'selector-function-argument': {
@@ -4073,14 +4196,14 @@ var app = (function () {
     		greedy: true
     	},
     	'class-name': {
-    		pattern: /(\b(?:class|interface|extends|implements|trait|instanceof|new)\s+|\bcatch\s+\()[\w.\\]+/i,
+    		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,
     		lookbehind: true,
     		inside: {
     			'punctuation': /[.\\]/
     		}
     	},
-    	'keyword': /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
-    	'boolean': /\b(?:true|false)\b/,
+    	'keyword': /\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,
+    	'boolean': /\b(?:false|true)\b/,
     	'function': /\b\w+(?=\()/,
     	'number': /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
     	'operator': /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
@@ -4096,7 +4219,7 @@ var app = (function () {
     	'class-name': [
     		Prism.languages.clike['class-name'],
     		{
-    			pattern: /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:prototype|constructor))/,
+    			pattern: /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,
     			lookbehind: true
     		}
     	],
@@ -4112,16 +4235,59 @@ var app = (function () {
     	],
     	// Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
     	'function': /#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
-    	'number': /\b(?:(?:0[xX](?:[\dA-Fa-f](?:_[\dA-Fa-f])?)+|0[bB](?:[01](?:_[01])?)+|0[oO](?:[0-7](?:_[0-7])?)+)n?|(?:\d(?:_\d)?)+n|NaN|Infinity)\b|(?:\b(?:\d(?:_\d)?)+\.?(?:\d(?:_\d)?)*|\B\.(?:\d(?:_\d)?)+)(?:[Ee][+-]?(?:\d(?:_\d)?)+)?/,
+    	'number': {
+    		pattern: RegExp(
+    			/(^|[^\w$])/.source +
+    			'(?:' +
+    			(
+    				// constant
+    				/NaN|Infinity/.source +
+    				'|' +
+    				// binary integer
+    				/0[bB][01]+(?:_[01]+)*n?/.source +
+    				'|' +
+    				// octal integer
+    				/0[oO][0-7]+(?:_[0-7]+)*n?/.source +
+    				'|' +
+    				// hexadecimal integer
+    				/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source +
+    				'|' +
+    				// decimal bigint
+    				/\d+(?:_\d+)*n/.source +
+    				'|' +
+    				// decimal number (integer or float) but no bigint
+    				/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source
+    			) +
+    			')' +
+    			/(?![\w$])/.source
+    		),
+    		lookbehind: true
+    	},
     	'operator': /--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/
     });
 
-    Prism.languages.javascript['class-name'][0].pattern = /(\b(?:class|interface|extends|implements|instanceof|new)\s+)[\w.\\]+/;
+    Prism.languages.javascript['class-name'][0].pattern = /(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/;
 
     Prism.languages.insertBefore('javascript', 'keyword', {
     	'regex': {
-    		// eslint-disable-next-line regexp/no-dupe-characters-character-class
-    		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/,
+    		pattern: RegExp(
+    			// lookbehind
+    			// eslint-disable-next-line regexp/no-dupe-characters-character-class
+    			/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source +
+    			// Regex pattern:
+    			// There are 2 regex patterns here. The RegExp set notation proposal added support for nested character
+    			// classes if the `v` flag is present. Unfortunately, nested CCs are both context-free and incompatible
+    			// with the only syntax, so we have to define 2 different regex patterns.
+    			/\//.source +
+    			'(?:' +
+    			/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source +
+    			'|' +
+    			// `v` flag syntax. This supports 3 levels of nested character classes.
+    			/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source +
+    			')' +
+    			// lookahead
+    			/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source
+    		),
     		lookbehind: true,
     		greedy: true,
     		inside: {
@@ -4192,7 +4358,21 @@ var app = (function () {
     			},
     			'string': /[\s\S]+/
     		}
+    	},
+    	'string-property': {
+    		pattern: /((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,
+    		lookbehind: true,
+    		greedy: true,
+    		alias: 'property'
     	}
+    });
+
+    Prism.languages.insertBefore('javascript', 'operator', {
+    	'literal-property': {
+    		pattern: /((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,
+    		lookbehind: true,
+    		alias: 'property'
+    	},
     });
 
     if (Prism.languages.markup) {
@@ -4250,21 +4430,57 @@ var app = (function () {
     	var SELECTOR = 'pre[data-src]:not([' + STATUS_ATTR + '="' + STATUS_LOADED + '"])'
     		+ ':not([' + STATUS_ATTR + '="' + STATUS_LOADING + '"])';
 
-    	var lang = /\blang(?:uage)?-([\w-]+)\b/i;
-
     	/**
-    	 * Sets the Prism `language-xxxx` or `lang-xxxx` class to the given language.
+    	 * Loads the given file.
     	 *
-    	 * @param {HTMLElement} element
-    	 * @param {string} language
-    	 * @returns {void}
+    	 * @param {string} src The URL or path of the source file to load.
+    	 * @param {(result: string) => void} success
+    	 * @param {(reason: string) => void} error
     	 */
-    	function setLanguageClass(element, language) {
-    		var className = element.className;
-    		className = className.replace(lang, ' ') + ' language-' + language;
-    		element.className = className.replace(/\s+/g, ' ').trim();
+    	function loadFile(src, success, error) {
+    		var xhr = new XMLHttpRequest();
+    		xhr.open('GET', src, true);
+    		xhr.onreadystatechange = function () {
+    			if (xhr.readyState == 4) {
+    				if (xhr.status < 400 && xhr.responseText) {
+    					success(xhr.responseText);
+    				} else {
+    					if (xhr.status >= 400) {
+    						error(FAILURE_MESSAGE(xhr.status, xhr.statusText));
+    					} else {
+    						error(FAILURE_EMPTY_MESSAGE);
+    					}
+    				}
+    			}
+    		};
+    		xhr.send(null);
     	}
 
+    	/**
+    	 * Parses the given range.
+    	 *
+    	 * This returns a range with inclusive ends.
+    	 *
+    	 * @param {string | null | undefined} range
+    	 * @returns {[number, number | undefined] | undefined}
+    	 */
+    	function parseRange(range) {
+    		var m = /^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(range || '');
+    		if (m) {
+    			var start = Number(m[1]);
+    			var comma = m[2];
+    			var end = m[3];
+
+    			if (!comma) {
+    				return [start, start];
+    			}
+    			if (!end) {
+    				return [start, undefined];
+    			}
+    			return [start, Number(end)];
+    		}
+    		return undefined;
+    	}
 
     	Prism.hooks.add('before-highlightall', function (env) {
     		env.selector += ', ' + SELECTOR;
@@ -4292,8 +4508,8 @@ var app = (function () {
     			}
 
     			// set language classes
-    			setLanguageClass(code, language);
-    			setLanguageClass(pre, language);
+    			Prism.util.setLanguage(code, language);
+    			Prism.util.setLanguage(pre, language);
 
     			// preload the language
     			var autoloader = Prism.plugins.autoloader;
@@ -4302,31 +4518,45 @@ var app = (function () {
     			}
 
     			// load file
-    			var xhr = new XMLHttpRequest();
-    			xhr.open('GET', src, true);
-    			xhr.onreadystatechange = function () {
-    				if (xhr.readyState == 4) {
-    					if (xhr.status < 400 && xhr.responseText) {
-    						// mark as loaded
-    						pre.setAttribute(STATUS_ATTR, STATUS_LOADED);
+    			loadFile(
+    				src,
+    				function (text) {
+    					// mark as loaded
+    					pre.setAttribute(STATUS_ATTR, STATUS_LOADED);
 
-    						// highlight code
-    						code.textContent = xhr.responseText;
-    						Prism.highlightElement(code);
+    					// handle data-range
+    					var range = parseRange(pre.getAttribute('data-range'));
+    					if (range) {
+    						var lines = text.split(/\r\n?|\n/g);
 
-    					} else {
-    						// mark as failed
-    						pre.setAttribute(STATUS_ATTR, STATUS_FAILED);
+    						// the range is one-based and inclusive on both ends
+    						var start = range[0];
+    						var end = range[1] == null ? lines.length : range[1];
 
-    						if (xhr.status >= 400) {
-    							code.textContent = FAILURE_MESSAGE(xhr.status, xhr.statusText);
-    						} else {
-    							code.textContent = FAILURE_EMPTY_MESSAGE;
+    						if (start < 0) { start += lines.length; }
+    						start = Math.max(0, Math.min(start - 1, lines.length));
+    						if (end < 0) { end += lines.length; }
+    						end = Math.max(0, Math.min(end, lines.length));
+
+    						text = lines.slice(start, end).join('\n');
+
+    						// add data-start for line numbers
+    						if (!pre.hasAttribute('data-start')) {
+    							pre.setAttribute('data-start', String(start + 1));
     						}
     					}
+
+    					// highlight code
+    					code.textContent = text;
+    					Prism.highlightElement(code);
+    				},
+    				function (error) {
+    					// mark as failed
+    					pre.setAttribute(STATUS_ATTR, STATUS_FAILED);
+
+    					code.textContent = error;
     				}
-    			};
-    			xhr.send(null);
+    			);
     		}
     	});
 
@@ -4360,7 +4590,7 @@ var app = (function () {
     }());
     });
 
-    /* src/sections/utils/Code.svelte generated by Svelte v3.48.0 */
+    /* src/sections/utils/Code.svelte generated by Svelte v3.59.2 */
 
     const { Object: Object_1$2 } = globals;
     const file$k = "src/sections/utils/Code.svelte";
@@ -4397,6 +4627,7 @@ var app = (function () {
     					function () {
     						if (is_function(/*currentLang*/ ctx[4].set(/*lang*/ ctx[6]))) /*currentLang*/ ctx[4].set(/*lang*/ ctx[6]).apply(this, arguments);
     					},
+    					false,
     					false,
     					false,
     					false
@@ -4485,7 +4716,9 @@ var app = (function () {
     			insert_dev(target, div1, anchor);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div1, null);
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div1, null);
+    				}
     			}
 
     			append_dev(div1, t0);
@@ -4499,7 +4732,7 @@ var app = (function () {
     			append_dev(code_1, t4);
 
     			if (!mounted) {
-    				dispose = listen_dev(div2, "click", /*copyCode*/ ctx[5], false, false, false);
+    				dispose = listen_dev(div2, "click", /*copyCode*/ ctx[5], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -4585,6 +4818,12 @@ var app = (function () {
     		);
     	};
 
+    	$$self.$$.on_mount.push(function () {
+    		if (code === undefined && !('code' in $$props || $$self.$$.bound[$$self.$$.props['code']])) {
+    			console.warn("<Code> was created without expected prop 'code'");
+    		}
+    	});
+
     	const writable_props = ['code'];
 
     	Object_1$2.keys($$props).forEach(key => {
@@ -4629,13 +4868,6 @@ var app = (function () {
     			options,
     			id: create_fragment$k.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*code*/ ctx[0] === undefined && !('code' in props)) {
-    			console.warn("<Code> was created without expected prop 'code'");
-    		}
     	}
 
     	get code() {
@@ -4647,7 +4879,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/SectionSimple.svelte generated by Svelte v3.48.0 */
+    /* src/sections/SectionSimple.svelte generated by Svelte v3.59.2 */
     const file$j = "src/sections/SectionSimple.svelte";
 
     // (12:4) {#if link}
@@ -4819,6 +5051,21 @@ var app = (function () {
     	validate_slots('SectionSimple', slots, []);
     	let { title, description, code, link = "" } = $$props;
     	const idify = title => `${title.toLowerCase().replace(" ", "-")}-section`;
+
+    	$$self.$$.on_mount.push(function () {
+    		if (title === undefined && !('title' in $$props || $$self.$$.bound[$$self.$$.props['title']])) {
+    			console.warn("<SectionSimple> was created without expected prop 'title'");
+    		}
+
+    		if (description === undefined && !('description' in $$props || $$self.$$.bound[$$self.$$.props['description']])) {
+    			console.warn("<SectionSimple> was created without expected prop 'description'");
+    		}
+
+    		if (code === undefined && !('code' in $$props || $$self.$$.bound[$$self.$$.props['code']])) {
+    			console.warn("<SectionSimple> was created without expected prop 'code'");
+    		}
+    	});
+
     	const writable_props = ['title', 'description', 'code', 'link'];
 
     	Object.keys($$props).forEach(key => {
@@ -4872,21 +5119,6 @@ var app = (function () {
     			options,
     			id: create_fragment$j.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*title*/ ctx[0] === undefined && !('title' in props)) {
-    			console.warn("<SectionSimple> was created without expected prop 'title'");
-    		}
-
-    		if (/*description*/ ctx[1] === undefined && !('description' in props)) {
-    			console.warn("<SectionSimple> was created without expected prop 'description'");
-    		}
-
-    		if (/*code*/ ctx[2] === undefined && !('code' in props)) {
-    			console.warn("<SectionSimple> was created without expected prop 'code'");
-    		}
     	}
 
     	get title() {
@@ -4963,7 +5195,7 @@ var app = (function () {
     exports.svgPathData = svgPathData;
     });
 
-    /* src/sections/utils/CodePopup.svelte generated by Svelte v3.48.0 */
+    /* src/sections/utils/CodePopup.svelte generated by Svelte v3.59.2 */
     const file$i = "src/sections/utils/CodePopup.svelte";
 
     function create_fragment$i(ctx) {
@@ -5008,7 +5240,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(div0, "click", /*click_handler*/ ctx[2], false, false, false);
+    				dispose = listen_dev(div0, "click", /*click_handler*/ ctx[2], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -5023,6 +5255,7 @@ var app = (function () {
     			transition_in(code_1.$$.fragment, local);
 
     			add_render_callback(() => {
+    				if (!current) return;
     				if (!div1_transition) div1_transition = create_bidirectional_transition(div1, fade, { delay: 0, duration: 200 }, true);
     				div1_transition.run(1);
     			});
@@ -5061,6 +5294,17 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('CodePopup', slots, []);
     	let { showCode, code } = $$props;
+
+    	$$self.$$.on_mount.push(function () {
+    		if (showCode === undefined && !('showCode' in $$props || $$self.$$.bound[$$self.$$.props['showCode']])) {
+    			console.warn("<CodePopup> was created without expected prop 'showCode'");
+    		}
+
+    		if (code === undefined && !('code' in $$props || $$self.$$.bound[$$self.$$.props['code']])) {
+    			console.warn("<CodePopup> was created without expected prop 'code'");
+    		}
+    	});
+
     	const writable_props = ['showCode', 'code'];
 
     	Object.keys($$props).forEach(key => {
@@ -5106,17 +5350,6 @@ var app = (function () {
     			options,
     			id: create_fragment$i.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*showCode*/ ctx[0] === undefined && !('showCode' in props)) {
-    			console.warn("<CodePopup> was created without expected prop 'showCode'");
-    		}
-
-    		if (/*code*/ ctx[1] === undefined && !('code' in props)) {
-    			console.warn("<CodePopup> was created without expected prop 'code'");
-    		}
     	}
 
     	get showCode() {
@@ -5167,7 +5400,7 @@ var app = (function () {
     exports.svgPathData = svgPathData;
     });
 
-    /* src/sections/utils/ComponentWrapper.svelte generated by Svelte v3.48.0 */
+    /* src/sections/utils/ComponentWrapper.svelte generated by Svelte v3.59.2 */
     const file$h = "src/sections/utils/ComponentWrapper.svelte";
 
     // (19:0) {#if $codeShown}
@@ -5270,7 +5503,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(h3, "click", /*click_handler*/ ctx[8], false, false, false);
+    				dispose = listen_dev(h3, "click", /*click_handler*/ ctx[8], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -5374,6 +5607,17 @@ var app = (function () {
     	validate_store(codeShown, 'codeShown');
     	component_subscribe($$self, codeShown, value => $$invalidate(2, $codeShown = value));
     	const showCode = newStatus => codeShown.set(newStatus);
+
+    	$$self.$$.on_mount.push(function () {
+    		if (type === undefined && !('type' in $$props || $$self.$$.bound[$$self.$$.props['type']])) {
+    			console.warn("<ComponentWrapper> was created without expected prop 'type'");
+    		}
+
+    		if (comp === undefined && !('comp' in $$props || $$self.$$.bound[$$self.$$.props['comp']])) {
+    			console.warn("<ComponentWrapper> was created without expected prop 'comp'");
+    		}
+    	});
+
     	const writable_props = ['type', 'comp'];
 
     	Object.keys($$props).forEach(key => {
@@ -5440,17 +5684,6 @@ var app = (function () {
     			options,
     			id: create_fragment$h.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*type*/ ctx[0] === undefined && !('type' in props)) {
-    			console.warn("<ComponentWrapper> was created without expected prop 'type'");
-    		}
-
-    		if (/*comp*/ ctx[1] === undefined && !('comp' in props)) {
-    			console.warn("<ComponentWrapper> was created without expected prop 'comp'");
-    		}
     	}
 
     	get type() {
@@ -5470,7 +5703,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardHello.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardHello.svelte generated by Svelte v3.59.2 */
 
     const file$g = "src/sections/cards/CardHello.svelte";
 
@@ -5523,7 +5756,7 @@ var app = (function () {
     			append_dev(div0, p);
 
     			if (!mounted) {
-    				dispose = listen_dev(div1, "click", /*toggleCard*/ ctx[1], false, false, false);
+    				dispose = listen_dev(div1, "click", /*toggleCard*/ ctx[1], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -5590,7 +5823,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardIdentity.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardIdentity.svelte generated by Svelte v3.59.2 */
 
     const file$f = "src/sections/cards/CardIdentity.svelte";
 
@@ -5691,7 +5924,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardPick.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardPick.svelte generated by Svelte v3.59.2 */
 
     const file$e = "src/sections/cards/CardPick.svelte";
 
@@ -5847,7 +6080,7 @@ var app = (function () {
     exports.svgPathData = svgPathData;
     });
 
-    /* src/sections/cards/CardSkills.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardSkills.svelte generated by Svelte v3.59.2 */
     const file$d = "src/sections/cards/CardSkills.svelte";
 
     function create_fragment$d(ctx) {
@@ -5975,7 +6208,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(div2, "click", /*toggleShow*/ ctx[1], false, false, false);
+    				dispose = listen_dev(div2, "click", /*toggleShow*/ ctx[1], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -5984,7 +6217,7 @@ var app = (function () {
     			if (dirty & /*isShown*/ 1) icon_changes.icon = /*isShown*/ ctx[0] ? faChevronUp.faChevronUp : faChevronDown.faChevronDown;
     			icon.$set(icon_changes);
 
-    			if (dirty & /*isShown*/ 1) {
+    			if (!current || dirty & /*isShown*/ 1) {
     				toggle_class(div3, "show", /*isShown*/ ctx[0]);
     			}
     		},
@@ -6060,7 +6293,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardDiapo.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardDiapo.svelte generated by Svelte v3.59.2 */
     const file$c = "src/sections/cards/CardDiapo.svelte";
 
     function create_fragment$c(ctx) {
@@ -6229,7 +6462,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardNeumorph.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardNeumorph.svelte generated by Svelte v3.59.2 */
 
     const file$b = "src/sections/cards/CardNeumorph.svelte";
 
@@ -6343,7 +6576,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardStack.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardStack.svelte generated by Svelte v3.59.2 */
 
     const file$a = "src/sections/cards/CardStack.svelte";
 
@@ -6479,7 +6712,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardVinyl.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardVinyl.svelte generated by Svelte v3.59.2 */
 
     const file$9 = "src/sections/cards/CardVinyl.svelte";
 
@@ -6599,7 +6832,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/cards/CardSimple.svelte generated by Svelte v3.48.0 */
+    /* src/sections/cards/CardSimple.svelte generated by Svelte v3.59.2 */
 
     const file$8 = "src/sections/cards/CardSimple.svelte";
 
@@ -6747,7 +6980,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/SectionCards.svelte generated by Svelte v3.48.0 */
+    /* src/sections/SectionCards.svelte generated by Svelte v3.59.2 */
 
     const { Object: Object_1$1 } = globals;
     const file$7 = "src/sections/SectionCards.svelte";
@@ -6770,7 +7003,7 @@ var app = (function () {
     	}
 
     	if (switch_value) {
-    		switch_instance = new switch_value(switch_props());
+    		switch_instance = construct_svelte_component_dev(switch_value, switch_props());
     	}
 
     	const block = {
@@ -6779,15 +7012,12 @@ var app = (function () {
     			switch_instance_anchor = empty();
     		},
     		m: function mount(target, anchor) {
-    			if (switch_instance) {
-    				mount_component(switch_instance, target, anchor);
-    			}
-
+    			if (switch_instance) mount_component(switch_instance, target, anchor);
     			insert_dev(target, switch_instance_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (switch_value !== (switch_value = /*components*/ ctx[1][/*componizeString*/ ctx[2](/*cardName*/ ctx[3])])) {
+    			if (dirty & /*$cards*/ 1 && switch_value !== (switch_value = /*components*/ ctx[1][/*componizeString*/ ctx[2](/*cardName*/ ctx[3])])) {
     				if (switch_instance) {
     					group_outros();
     					const old_component = switch_instance;
@@ -6800,7 +7030,7 @@ var app = (function () {
     				}
 
     				if (switch_value) {
-    					switch_instance = new switch_value(switch_props());
+    					switch_instance = construct_svelte_component_dev(switch_value, switch_props());
     					create_component(switch_instance.$$.fragment);
     					transition_in(switch_instance.$$.fragment, 1);
     					mount_component(switch_instance, switch_instance_anchor.parentNode, switch_instance_anchor);
@@ -6950,7 +7180,9 @@ var app = (function () {
     			append_dev(div1, div0);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div0, null);
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div0, null);
+    				}
     			}
 
     			current = true;
@@ -7079,7 +7311,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/items/Item3d.svelte generated by Svelte v3.48.0 */
+    /* src/sections/items/Item3d.svelte generated by Svelte v3.59.2 */
 
     const file$6 = "src/sections/items/Item3d.svelte";
 
@@ -7272,7 +7504,7 @@ var app = (function () {
     exports.svgPathData = svgPathData;
     });
 
-    /* src/sections/items/ItemDrawer.svelte generated by Svelte v3.48.0 */
+    /* src/sections/items/ItemDrawer.svelte generated by Svelte v3.59.2 */
     const file$5 = "src/sections/items/ItemDrawer.svelte";
 
     function create_fragment$5(ctx) {
@@ -7355,12 +7587,12 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(div1, "click", /*toggleActive*/ ctx[1], false, false, false);
+    				dispose = listen_dev(div1, "click", /*toggleActive*/ ctx[1], false, false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*isActive*/ 1) {
+    			if (!current || dirty & /*isActive*/ 1) {
     				toggle_class(div3, "active", /*isActive*/ ctx[0]);
     			}
     		},
@@ -7443,7 +7675,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/items/ItemFlip.svelte generated by Svelte v3.48.0 */
+    /* src/sections/items/ItemFlip.svelte generated by Svelte v3.59.2 */
 
     const file$4 = "src/sections/items/ItemFlip.svelte";
 
@@ -7515,7 +7747,7 @@ var app = (function () {
     			append_dev(div2, p1);
 
     			if (!mounted) {
-    				dispose = listen_dev(div5, "click", /*toggleFlip*/ ctx[1], false, false, false);
+    				dispose = listen_dev(div5, "click", /*toggleFlip*/ ctx[1], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -7582,7 +7814,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/SectionItems.svelte generated by Svelte v3.48.0 */
+    /* src/sections/SectionItems.svelte generated by Svelte v3.59.2 */
 
     const { Object: Object_1 } = globals;
     const file$3 = "src/sections/SectionItems.svelte";
@@ -7605,7 +7837,7 @@ var app = (function () {
     	}
 
     	if (switch_value) {
-    		switch_instance = new switch_value(switch_props());
+    		switch_instance = construct_svelte_component_dev(switch_value, switch_props());
     	}
 
     	const block = {
@@ -7614,15 +7846,12 @@ var app = (function () {
     			switch_instance_anchor = empty();
     		},
     		m: function mount(target, anchor) {
-    			if (switch_instance) {
-    				mount_component(switch_instance, target, anchor);
-    			}
-
+    			if (switch_instance) mount_component(switch_instance, target, anchor);
     			insert_dev(target, switch_instance_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (switch_value !== (switch_value = /*components*/ ctx[1][/*componizeString*/ ctx[2](/*itemName*/ ctx[3])])) {
+    			if (dirty & /*$items*/ 1 && switch_value !== (switch_value = /*components*/ ctx[1][/*componizeString*/ ctx[2](/*itemName*/ ctx[3])])) {
     				if (switch_instance) {
     					group_outros();
     					const old_component = switch_instance;
@@ -7635,7 +7864,7 @@ var app = (function () {
     				}
 
     				if (switch_value) {
-    					switch_instance = new switch_value(switch_props());
+    					switch_instance = construct_svelte_component_dev(switch_value, switch_props());
     					create_component(switch_instance.$$.fragment);
     					transition_in(switch_instance.$$.fragment, 1);
     					mount_component(switch_instance, switch_instance_anchor.parentNode, switch_instance_anchor);
@@ -7785,7 +8014,9 @@ var app = (function () {
     			append_dev(div1, div0);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div0, null);
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div0, null);
+    				}
     			}
 
     			current = true;
@@ -7896,7 +8127,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/navbars/NavbarVanilla.svelte generated by Svelte v3.48.0 */
+    /* src/sections/navbars/NavbarVanilla.svelte generated by Svelte v3.59.2 */
 
     const file$2 = "src/sections/navbars/NavbarVanilla.svelte";
 
@@ -8038,7 +8269,7 @@ var app = (function () {
     			append_dev(li2, a5);
 
     			if (!mounted) {
-    				dispose = listen_dev(img1, "click", /*toggleActive*/ ctx[1], false, false, false);
+    				dispose = listen_dev(img1, "click", /*toggleActive*/ ctx[1], false, false, false, false);
     				mounted = true;
     			}
     		},
@@ -8105,7 +8336,7 @@ var app = (function () {
     	}
     }
 
-    /* src/sections/SectionNavBar.svelte generated by Svelte v3.48.0 */
+    /* src/sections/SectionNavBar.svelte generated by Svelte v3.59.2 */
     const file$1 = "src/sections/SectionNavBar.svelte";
 
     // (9:2) <ComponentWrapper type="navbars" comp="vanilla">
@@ -8258,7 +8489,7 @@ var app = (function () {
     	}
     }
 
-    /* src/App.svelte generated by Svelte v3.48.0 */
+    /* src/App.svelte generated by Svelte v3.59.2 */
     const file = "src/App.svelte";
 
     function get_each_context(ctx, list, i) {
@@ -8400,7 +8631,9 @@ var app = (function () {
     			append_dev(div1, div0);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div0, null);
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div0, null);
+    				}
     			}
 
     			append_dev(div0, t2);
@@ -8548,5 +8781,5 @@ var app = (function () {
 
     return app;
 
-}());
+})();
 //# sourceMappingURL=bundle.js.map
