@@ -8,8 +8,9 @@
   import CardNeumorph from './cards/CardNeumorph.svelte';
   import CardStack from './cards/CardStack.svelte';  
   import CardVinyl from './cards/CardVinyl.svelte';
+  import CardSimple from './cards/CardSimple.svelte';
   import { cards } from '../stores.js';
-  const components = { CardHello, CardIdentity, CardPick, CardSkills, CardDiapo, CardNeumorph, CardStack, CardVinyl };
+  const components = { CardHello, CardIdentity, CardPick, CardSkills, CardDiapo, CardNeumorph, CardStack, CardVinyl, CardSimple };
 
   const componizeString = name => `Card${name[0].toUpperCase()}${name.substring(1)}`
 </script>
