@@ -30,21 +30,21 @@
   }
   .buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 24px;
   }
 
   /* Medium tablets and smaller */
   @media (max-width: 1100px) {
     .buttons {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
 
   /* Mobile phones (portrait) adn smaller */
   @media (max-width: 576px) {
     .buttons {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr1fr;
     }
   }
 </style>

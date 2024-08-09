@@ -1033,94 +1033,52 @@ export const data = {
   },
   buttons: {
     push: {
-      HTML: `<div class="item-drawer">
-  <div class="item-drawer-content">
-    <h2>The drawer item</h2>
-  </div>
-  <div class="item-drawer-button">
-    <i class="fas fa-ellipsis-v"></i>
-  </div>
-  <div class="item-drawer-settings">
-    <a href="#"><i class="fas fa-edit"></i></a>
-    <a href="#"><i class="fas fa-trash"></i></a>
-  </div>
-  </div>`,
-      CSS: `.item-drawer {
-    /*fixed*/
-    display: flex;
-    align-items: center;
-    /*customizable*/
-    height: 120px;
-    width: 700px;
-    max-width: 100%;
-  /*   width: fit-content; */
-    border-radius: 16px;
-    box-shadow: 0 0 16px rgba(0,0,0,0.3);
-    background-color: rgb(250,250,250);
+      HTML: `
+<div class="button-push">
+  <a href="https://yannklein.dev/">PUSH</a>
+</div>`,
+      CSS: `
+  .button-push {
+    transform: translate(-4px, -4px);
+    transition: 0.3s;
   }
-
-  .item-drawer h2 {
-    /*customizable*/
-    margin: 0;
+  .button-push:hover {
+    transform: translate(0px, 0px);
   }
-
-  .item-drawer-content {
-    /*fixed*/
-    flex-grow: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    /*customizable*/
-    padding: 0 32px;
+  .button-push:active {
+    transform: translate(4px, 4px);
   }
-
-  .item-drawer-settings {
-    /*fixed*/
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 0px;
+  .button-push a {
+    background-color: #ca6a43;
+    color: #7ebdc2;
+    font-size: 24px;
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: 4px solid #7ebdc2;
+    position: relative;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  .button-push a:after {
+    content: '';
+    z-index: -1;
+    background-color: #7ebdc2;
+    border-radius: 8px;
+    border: 4px solid #ca6a43;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 100%;
     height: 100%;
-    /*customizable*/
-    transition: 0.3s ease-out;
-    background-color: rgb(230,230,230);
-    border-radius: 0 16px 16px 0;
-    font-size: 40px;
+    transition: 0.3s;
   }
-
-  .item-drawer-button {
-    /*fixed*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    cursor: pointer;
-    /*customizable*/
-    background-color: #a4beff;
-    border-radius: 0 16px 16px 0;
-    width: 40px;
-    font-size: 40px;
+  .button-push:hover a:after {
+    top: 4px;
+    left: 4px;
   }
-
-  .item-drawer-settings a {
-    /*customizable*/
-    color: rgb(40,40,40);
-  }
-
-  .item-drawer.active .item-drawer-settings {
-    /*customizable*/
-    width: 180px;
-  }
-
-  .item-drawer.active .item-drawer-button {
-    /*fixed*/
-    border-radius: 0;
+  .button-push:active a:after {
+    top: 0px;
+    left: 0px;
   }`,
-      JS: `document.querySelector(".item-drawer-button")
-    .addEventListener("click", (event) => {
-      document.querySelector(".item-drawer").classList.toggle("active");
-    });`,
     },
   },
   navbars: {
