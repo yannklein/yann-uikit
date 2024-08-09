@@ -6,7 +6,8 @@
 	import SectionSimple from "./sections/SectionSimple.svelte";
   import SectionCards from "./sections/SectionCards.svelte";
   import SectionItems from "./sections/SectionItems.svelte";
-  import SectionNavBar from "./sections/SectionNavBar.svelte";
+  import SectionButtons from "./sections/SectionButtons.svelte";
+  import SectionNavbar from "./sections/SectionNavbar.svelte";
 
 	const title="Yann's UI Kit ❐";
 	const description="A repo of interesting non-bootstrap UI components ready to use.";
@@ -21,7 +22,8 @@
 		{/each}
     <SectionCards/>
     <SectionItems/>
-    <SectionNavBar/>
+    <SectionButtons/>
+    <SectionNavbar/>
 	</div>
 </div>
 

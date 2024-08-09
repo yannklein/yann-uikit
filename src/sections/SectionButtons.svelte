@@ -4,7 +4,8 @@
   import { buttons } from '../stores.js';
   const components = { ButtonPush };
 
-  const componizeString = name => `Item${name[0].toUpperCase()}${name.substring(1)}`
+  const componizeString = name => `Button${name[0].toUpperCase()}${name.substring(1)}`
+  
 </script>
 
 <div id="buttons-section" class="page-section">
