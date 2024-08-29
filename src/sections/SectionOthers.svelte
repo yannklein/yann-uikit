@@ -3,7 +3,8 @@
   import OtherDoubleRange from './others/OtherSliderRange.svelte';
   import { others } from '../stores.js';
   import OtherSliderRange from './others/OtherSliderRange.svelte';
-  const components = { OtherSliderRange };
+  import OtherStars from './others/OtherStars.svelte';
+  const components = { OtherSliderRange, OtherStars };
 
   const componizeString = name => `Other${name[0].toUpperCase()}${name.substring(1)}`
 </script>
