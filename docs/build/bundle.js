@@ -2087,7 +2087,8 @@ var app = (function () {
       },
       navbars: {
         vanilla: {
-          HTML: `<div class="navbar-vanilla">
+          HTML: `
+  <div class="navbar-vanilla">
     <a class="navbar-vanilla-section" href="#">
       <img class="navbar-vanilla-logo" src="logo.png" alt="logo">
       <h2 class="navbar-vanilla-brand" >Vanilla CSS navbar</h2>
@@ -2223,26 +2224,40 @@ var app = (function () {
         },
         stars: {
           HTML: `
-<div class="others-slider-range">
-  <input class="slider" type="range" value="70" min="0" max="100" id="range" oninput="rangenumber.value=value"/>
-  <input class="rangenumber" type="number" id="rangenumber" min="0" max="100" value="70" oninput="range.value=value">
-</div>`,
-          CSS: `.others-slider-range {
-    display: flex;
-    gap: 16px;
-    align-items: center;
+<form class="star-rating">
+  <input type="radio" name="review[rating]" value="1" />
+  <input type="radio" name="review[rating]" value="2" />
+  <input type="radio" name="review[rating]" value="3" checked />
+  <input type="radio" name="review[rating]" value="4" />
+</form>`,
+          CSS: `
+  .star-rating {
+    text-align: center;
     width: 100%;
   }
-  .others-slider-range .slider {
-    accent-color: rgb(2, 92, 165);
-    flex-grow: 1;
+  .star-rating input {
+    visibility: hidden;
+    margin-right: 1em;
+    font-size: 28px;
+    text-shadow: 0.5px 0.5px 3px rgb(2, 92, 165);
   }
-  .others-slider-range .rangenumber {
-    border: 2px solid rgb(2, 92, 165);
-    border-radius: 4px;
-    text-align: center;
-    background-color: pink;
-    color: rgb(2, 92, 165);
+
+  .star-rating input:before {
+    cursor: pointer;
+    visibility: visible;
+    font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free';
+    content: '\f005';
+    font-weight: 900;
+    color: pink;
+    transition: color 0.35s;
+  }
+
+  .star-rating input:hover {
+    transform: scale(1.2) translate(-10%, -10%);
+  }
+
+  .star-rating input:checked ~ input:before {
+    color: #fff;
   }`
         }
       } 
@@ -9248,32 +9263,32 @@ var app = (function () {
     			t6 = space();
     			link = element("link");
     			attr_dev(a, "href", "https://github.com/trouni");
-    			attr_dev(a, "class", "svelte-1nesjnh");
+    			attr_dev(a, "class", "svelte-nastj1");
     			add_location(a, file$2, 0, 29, 29);
-    			attr_dev(p, "class", "svelte-1nesjnh");
+    			attr_dev(p, "class", "svelte-nastj1");
     			add_location(p, file$2, 0, 0, 0);
     			attr_dev(input0, "type", "radio");
     			attr_dev(input0, "name", "review[rating]");
     			input0.value = "1";
-    			attr_dev(input0, "class", "svelte-1nesjnh");
+    			attr_dev(input0, "class", "svelte-nastj1");
     			add_location(input0, file$2, 2, 2, 109);
     			attr_dev(input1, "type", "radio");
     			attr_dev(input1, "name", "review[rating]");
     			input1.value = "2";
-    			attr_dev(input1, "class", "svelte-1nesjnh");
+    			attr_dev(input1, "class", "svelte-nastj1");
     			add_location(input1, file$2, 3, 2, 166);
     			attr_dev(input2, "type", "radio");
     			attr_dev(input2, "name", "review[rating]");
     			input2.value = "3";
     			input2.checked = true;
-    			attr_dev(input2, "class", "svelte-1nesjnh");
+    			attr_dev(input2, "class", "svelte-nastj1");
     			add_location(input2, file$2, 4, 2, 223);
     			attr_dev(input3, "type", "radio");
     			attr_dev(input3, "name", "review[rating]");
     			input3.value = "4";
-    			attr_dev(input3, "class", "svelte-1nesjnh");
+    			attr_dev(input3, "class", "svelte-nastj1");
     			add_location(input3, file$2, 5, 2, 288);
-    			attr_dev(form, "class", "star-rating svelte-1nesjnh");
+    			attr_dev(form, "class", "star-rating svelte-nastj1");
     			add_location(form, file$2, 1, 0, 80);
     			attr_dev(link, "rel", "stylesheet");
     			attr_dev(link, "href", "https://use.fontawesome.com/releases/v5.14.0/css/all.css");

@@ -45,6 +45,4 @@
   .star-rating input:checked ~ input:before {
     color: #fff;
   }
-
-  
 </style>

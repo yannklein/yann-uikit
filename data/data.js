@@ -1139,7 +1139,8 @@ export const data = {
   },
   navbars: {
     vanilla: {
-      HTML: `<div class="navbar-vanilla">
+      HTML: `
+  <div class="navbar-vanilla">
     <a class="navbar-vanilla-section" href="#">
       <img class="navbar-vanilla-logo" src="logo.png" alt="logo">
       <h2 class="navbar-vanilla-brand" >Vanilla CSS navbar</h2>
@@ -1275,26 +1276,40 @@ export const data = {
     },
     stars: {
       HTML: `
-<div class="others-slider-range">
-  <input class="slider" type="range" value="70" min="0" max="100" id="range" oninput="rangenumber.value=value"/>
-  <input class="rangenumber" type="number" id="rangenumber" min="0" max="100" value="70" oninput="range.value=value">
-</div>`,
-      CSS: `.others-slider-range {
-    display: flex;
-    gap: 16px;
-    align-items: center;
+<form class="star-rating">
+  <input type="radio" name="review[rating]" value="1" />
+  <input type="radio" name="review[rating]" value="2" />
+  <input type="radio" name="review[rating]" value="3" checked />
+  <input type="radio" name="review[rating]" value="4" />
+</form>`,
+      CSS: `
+  .star-rating {
+    text-align: center;
     width: 100%;
   }
-  .others-slider-range .slider {
-    accent-color: rgb(2, 92, 165);
-    flex-grow: 1;
+  .star-rating input {
+    visibility: hidden;
+    margin-right: 1em;
+    font-size: 28px;
+    text-shadow: 0.5px 0.5px 3px rgb(2, 92, 165);
   }
-  .others-slider-range .rangenumber {
-    border: 2px solid rgb(2, 92, 165);
-    border-radius: 4px;
-    text-align: center;
-    background-color: pink;
-    color: rgb(2, 92, 165);
+
+  .star-rating input:before {
+    cursor: pointer;
+    visibility: visible;
+    font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free';
+    content: '\f005';
+    font-weight: 900;
+    color: pink;
+    transition: color 0.35s;
+  }
+
+  .star-rating input:hover {
+    transform: scale(1.2) translate(-10%, -10%);
+  }
+
+  .star-rating input:checked ~ input:before {
+    color: #fff;
   }`
     }
   } 
