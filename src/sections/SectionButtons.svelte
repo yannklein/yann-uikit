@@ -1,8 +1,9 @@
 <script>
   import ComponentWrapper from './utils/ComponentWrapper.svelte';
   import ButtonPush from './buttons/ButtonPush.svelte';
+  import ButtonBeforeAfter from './buttons/ButtonBeforeAfter.svelte';
   import { buttons } from '../stores.js';
-  const components = { ButtonPush };
+  const components = { ButtonPush, ButtonBeforeAfter };
 
   const componizeString = name => `Button${name[0].toUpperCase()}${name.substring(1)}`
   
