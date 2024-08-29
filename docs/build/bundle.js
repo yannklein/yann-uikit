@@ -8199,9 +8199,9 @@ var app = (function () {
     			a = element("a");
     			a.textContent = "PUSH";
     			attr_dev(a, "href", "https://yannklein.dev/");
-    			attr_dev(a, "class", "svelte-12hjtvd");
+    			attr_dev(a, "class", "svelte-yqz88o");
     			add_location(a, file$4, 1, 2, 28);
-    			attr_dev(div, "class", "button-push svelte-12hjtvd");
+    			attr_dev(div, "class", "button-push svelte-yqz88o");
     			add_location(div, file$4, 0, 0, 0);
     		},
     		l: function claim(nodes) {
