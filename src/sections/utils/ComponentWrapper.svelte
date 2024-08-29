@@ -3,14 +3,15 @@
   import { writable } from 'svelte/store';
   import Icon from 'fa-svelte'
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
-	import { cards, items, buttons, navbars } from '../../stores';
+	import { cards, items, buttons, navbars, others } from '../../stores';
   
   export let type, comp;
   const data = { 
     cards: $cards, 
     items: $items, 
     buttons: $buttons, 
-    navbars: $navbars
+    navbars: $navbars,
+    others: $others
   };
 
   const codeShown = writable(false);
